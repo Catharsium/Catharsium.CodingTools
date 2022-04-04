@@ -17,6 +17,7 @@ public static class Registration
 
         services.AddScoped<IActionHandler, GuidActionHandler>();
         services.AddScoped<IActionHandler, EncryptionActionHandler>();
+        services.AddScoped<IActionHandler, JiraActionHandler>();
 
         return services;
     }
