@@ -1,8 +1,9 @@
-﻿using Catharsium.Util.IO.Console.ActionHandlers.Base;
+﻿using Catharsium.CodingTools.Interface.Terminal.ActionHandlers._Interfaces;
+using Catharsium.Util.IO.Console.ActionHandlers.Base;
 using Catharsium.Util.IO.Console.Interfaces;
-namespace Catharsium.CodingTools.Interface.Terminal.ActionHandlers;
+namespace Catharsium.CodingTools.Interface.Terminal.ActionHandlers.Generate;
 
-public class GuidActionHandler : BaseActionHandler
+public class GuidActionHandler : BaseActionHandler, IGenerationActionHandler
 {
     public GuidActionHandler(IConsole console)
         : base(console, "Guid")

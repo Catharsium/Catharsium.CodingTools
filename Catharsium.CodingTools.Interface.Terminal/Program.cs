@@ -23,7 +23,7 @@ class Program
             .AddCodingToolsTerminal(configuration)
             .BuildServiceProvider();
 
-        var mainMenuActionHandler = serviceProvider.GetService<ISingleMenuActionHandler>();
+        var mainMenuActionHandler = serviceProvider.GetService<IMainMenuActionHandler>();
         if (mainMenuActionHandler != null) {
             await mainMenuActionHandler.Run();
         }

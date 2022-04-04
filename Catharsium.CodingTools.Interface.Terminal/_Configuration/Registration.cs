@@ -1,4 +1,7 @@
 ﻿using Catharsium.CodingTools.Interface.Terminal.ActionHandlers;
+using Catharsium.CodingTools.Interface.Terminal.ActionHandlers._Interfaces;
+using Catharsium.CodingTools.Interface.Terminal.ActionHandlers.Generate;
+using Catharsium.CodingTools.Interface.Terminal.ActionHandlers.Jira;
 using Catharsium.Util.Configuration.Extensions;
 using Catharsium.Util.IO.Console._Configuration;
 using Catharsium.Util.IO.Console.ActionHandlers.Interfaces;
@@ -15,9 +18,15 @@ public static class Registration
 
         services.AddConsoleIoUtilities(config);
 
-        services.AddScoped<IActionHandler, GuidActionHandler>();
-        services.AddScoped<IActionHandler, EncryptionActionHandler>();
-        services.AddScoped<IActionHandler, JiraActionHandler>();
+        services.AddScoped<IMenuActionHandler, GenerationActionHandler>();
+        services.AddScoped<IMenuActionHandler, EncryptionActionHandler>();
+        services.AddScoped<IMenuActionHandler, JiraActionHandler>();
+
+        services.AddScoped<IGenerationActionHandler, GuidActionHandler>();
+
+        services.AddScoped<IJiraActionHandler, JiraWorklogOverviewActionHandler>();
+        services.AddScoped<IJiraActionHandler, JiraAddWorklogActionHandler>();
+        services.AddScoped<IJiraActionHandler, JiraRemoveWorklogActionHandler>();
 
         return services;
     }
