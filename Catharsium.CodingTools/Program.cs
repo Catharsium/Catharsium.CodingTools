@@ -8,8 +8,7 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        var appsettingsFilePath = @"D:\Cloud\OneDrive\Software\Catharsium.CodingTools\appsettings.json";
-        //var appsettingsFilePath = @"appsettings.json";
+        var appsettingsFilePath = @"appsettings.json";
         if (args.Length > 0) {
             appsettingsFilePath = args[0];
         }
