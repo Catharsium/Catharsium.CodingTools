@@ -8,9 +8,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3E612862-1930-4E39-90B4-58CBF6B4DC00}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\..\Software\Catharsium.CodingTools\appsettings.json = ..\..\..\Software\Catharsium.CodingTools\appsettings.json
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catharsium.CodingTools.Interface.Terminal.Tests", "Catharsium.CodingTools.Interface.Terminal.Tests\Catharsium.CodingTools.Interface.Terminal.Tests.csproj", "{927C11A4-0B9F-404D-844C-31F2E833EF54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catharsium.CodingTools.Interface.Terminal.Tests", "Catharsium.CodingTools.Interface.Terminal.Tests\Catharsium.CodingTools.Interface.Terminal.Tests.csproj", "{927C11A4-0B9F-404D-844C-31F2E833EF54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
