@@ -37,7 +37,7 @@ public class JiraRemoveWorklogActionHandler : BaseActionHandler, IJiraActionHand
             this.console.WriteLine($"{issue.JiraIdentifier}\t{issue.Key}");
             var selectedWorklogItem = this.console.AskForItem(worklogs);
             if (selectedWorklogItem != null) {
-                await this.jira.Issues.DeleteWorklogAsync(issue.Key, selectedWorklogItem.InternalWorklog.Id);
+                await this.jira.Issues.DeleteWorklogAsync(issue.Key, selectedWorklogItem.Id);
                 this.console.WriteLine($"Worklog '{selectedWorklogItem}' was deleted");
             }
         }

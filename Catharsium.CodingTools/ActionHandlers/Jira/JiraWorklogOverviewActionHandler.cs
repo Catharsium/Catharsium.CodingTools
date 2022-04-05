@@ -32,18 +32,18 @@ public class JiraWorklogOverviewActionHandler : BaseActionHandler, IJiraActionHa
         foreach (var issue in issues) {
             var worklogs = await this.worklogRetriever.GetCurrentUserWorklogs(issue);
             foreach (var worklog in worklogs) {
-                if (timesheet.ContainsKey(worklog.InternalWorklog.StartDate.Value.Date)) {
-                    timesheet[worklog.InternalWorklog.StartDate.Value.Date].Add(worklog);
+                if (timesheet.ContainsKey(worklog.StartDate.Date)) {
+                    timesheet[worklog.StartDate.Date].Add(worklog);
                 }
                 else {
-                    timesheet.Add(worklog.InternalWorklog.StartDate.Value.Date, new List<WorklogAdapter> { worklog });
+                    timesheet.Add(worklog.StartDate.Date, new List<WorklogAdapter> { worklog });
                 }
             }
         }
 
         while (startDate <= endDate) {
             if (timesheet.ContainsKey(startDate)) {
-                var totalSecondsLogged = timesheet[startDate].Select(l => l.InternalWorklog.TimeSpentInSeconds).Sum();
+                var totalSecondsLogged = timesheet[startDate].Select(l => l.TimeSpentInSeconds).Sum();
                 var totalTimeLogged = TimeSpan.FromSeconds(totalSecondsLogged);
                 if (totalTimeLogged.TotalHours < 8) {
                     this.console.ForegroundColor = ConsoleColor.DarkRed;
