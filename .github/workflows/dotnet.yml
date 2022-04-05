@@ -1,0 +1,61 @@
+name: Build
+
+on:
+  push:
+    branches: ['main']
+    tags: ['**']
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+      - name: Restore dependencies
+        run: dotnet restore
+      - run: dotnet build --no-restore
+      - run: dotnet test --no-build --verbosity normal
+
+
+  pack:
+    runs-on: ubuntu-latest
+    name: Pack
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y.%m.%d')"
+      - name: Pack
+        run: dotnet pack --output ./artifacts --configuration Release -p:Version=${{ steps.date.outputs.date }}.${{ github.run_number }}
+      - uses: actions/upload-artifact@v1
+        with:
+          name: artifacts
+          path: ./artifacts
+
+
+  publish:
+    runs-on: ubuntu-latest
+    name: Publish
+    needs: pack
+    steps:
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'  
+      - uses: actions/download-artifact@v1
+        with:
+          name: artifacts
+          path: ./artifacts
+      - name: Publish packages
+        run: dotnet nuget push ./artifacts/**.nupkg --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
