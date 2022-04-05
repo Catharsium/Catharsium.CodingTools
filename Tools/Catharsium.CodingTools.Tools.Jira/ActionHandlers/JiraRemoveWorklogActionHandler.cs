@@ -1,8 +1,8 @@
-﻿using Catharsium.CodingTools.ActionHandlers._Interfaces;
-using Catharsium.CodingTools.Models;
+﻿using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
+using Catharsium.CodingTools.Tools.Jira.Models;
 using Catharsium.Util.IO.Console.ActionHandlers.Base;
 using Catharsium.Util.IO.Console.Interfaces;
-namespace Catharsium.CodingTools.ActionHandlers.Jira;
+namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers;
 
 public class JiraRemoveWorklogActionHandler : BaseActionHandler, IJiraActionHandler
 {

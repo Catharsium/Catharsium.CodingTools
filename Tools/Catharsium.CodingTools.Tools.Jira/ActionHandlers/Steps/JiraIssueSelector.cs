@@ -1,17 +1,17 @@
-﻿using Catharsium.CodingTools._Configuration;
-using Catharsium.CodingTools.ActionHandlers._Interfaces;
-using Catharsium.CodingTools.Models;
+﻿using Catharsium.CodingTools.Tools.Jira._Configuration;
+using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
+using Catharsium.CodingTools.Tools.Jira.Models;
 using Catharsium.Util.IO.Console.Interfaces;
-namespace Catharsium.CodingTools.ActionHandlers.Jira.Steps;
+namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers.Steps;
 
 public class JiraIssueSelector : IJiraIssueSelector
 {
     private readonly Atlassian.Jira.Jira jira;
-    private readonly CodingToolsSettings settings;
+    private readonly JiraCodingToolsSettings settings;
     private readonly IConsole console;
 
 
-    public JiraIssueSelector(Atlassian.Jira.Jira jira, CodingToolsSettings settings, IConsole console)
+    public JiraIssueSelector(Atlassian.Jira.Jira jira, JiraCodingToolsSettings settings, IConsole console)
     {
         this.jira = jira;
         this.settings = settings;
@@ -27,7 +27,7 @@ public class JiraIssueSelector : IJiraIssueSelector
         if (selectedIssue == null) {
             var selectedIssueKey = this.console.AskForText("Enter the issue key");
             if (!selectedIssueKey.Contains('-')) {
-                selectedIssueKey = $"{this.settings.Jira.DefaultProject}-{selectedIssueKey}";
+                selectedIssueKey = $"{this.settings.DefaultProject}-{selectedIssueKey}";
             }
 
             var manualIssue = await this.jira.Issues.GetIssueAsync(selectedIssueKey);

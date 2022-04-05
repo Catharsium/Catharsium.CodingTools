@@ -13,6 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catharsium.CodingTools", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catharsium.CodingTools.Tests", "Catharsium.CodingTools.Tests\Catharsium.CodingTools.Tests.csproj", "{722B4395-86A0-4049-8900-087235C7C86A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{DC6DC174-058C-4767-8078-8EC83858A961}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catharsium.CodingTools.Tools.Jira", "Tools\Catharsium.CodingTools.Tools.Jira\Catharsium.CodingTools.Tools.Jira.csproj", "{6804E384-4DFD-440C-A6D6-FE45081073C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catharsium.CodingTools.Tools.Jira.Tests", "Catharsium.CodingTools.Tools.Jira.Tests\Catharsium.CodingTools.Tools.Jira.Tests.csproj", "{852C9EE2-993A-4B1B-A2FE-F2CDC8F3CA50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +33,21 @@ Global
 		{722B4395-86A0-4049-8900-087235C7C86A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{722B4395-86A0-4049-8900-087235C7C86A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{722B4395-86A0-4049-8900-087235C7C86A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6804E384-4DFD-440C-A6D6-FE45081073C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6804E384-4DFD-440C-A6D6-FE45081073C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6804E384-4DFD-440C-A6D6-FE45081073C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6804E384-4DFD-440C-A6D6-FE45081073C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{852C9EE2-993A-4B1B-A2FE-F2CDC8F3CA50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{852C9EE2-993A-4B1B-A2FE-F2CDC8F3CA50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{852C9EE2-993A-4B1B-A2FE-F2CDC8F3CA50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{852C9EE2-993A-4B1B-A2FE-F2CDC8F3CA50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6804E384-4DFD-440C-A6D6-FE45081073C0} = {DC6DC174-058C-4767-8078-8EC83858A961}
+		{852C9EE2-993A-4B1B-A2FE-F2CDC8F3CA50} = {DC6DC174-058C-4767-8078-8EC83858A961}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {158B27F4-B044-421E-8417-A9EC4BBD948F}

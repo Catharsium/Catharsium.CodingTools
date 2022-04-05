@@ -1,5 +1,6 @@
 ﻿using Atlassian.Jira;
-namespace Catharsium.CodingTools.Models;
+
+namespace Catharsium.CodingTools.Tools.Jira.Models;
 
 public class IssueAdapter
 {

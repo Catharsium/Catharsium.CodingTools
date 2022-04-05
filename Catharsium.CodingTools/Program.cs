@@ -1,4 +1,5 @@
 ﻿using Catharsium.CodingTools._Configuration;
+using Catharsium.CodingTools.Tools.Jira._Configuration;
 using Catharsium.Util.IO.Console.ActionHandlers.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

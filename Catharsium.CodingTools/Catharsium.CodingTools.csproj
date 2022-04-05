@@ -17,9 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Atlassian.SDK" Version="13.0.0" />
     <PackageReference Include="Catharsium.Util.IO.Console" Version="2022.4.5.31" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tools\Catharsium.CodingTools.Tools.Jira\Catharsium.CodingTools.Tools.Jira.csproj" />
   </ItemGroup>
 
 </Project>
