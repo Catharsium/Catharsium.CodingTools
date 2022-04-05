@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catharsium.CodingTools.Interface.Terminal", "Catharsium.CodingTools.Interface.Terminal\Catharsium.CodingTools.Interface.Terminal.csproj", "{D55E46EA-BF64-463F-B694-2235BA458CAC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3E612862-1930-4E39-90B4-58CBF6B4DC00}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\..\Software\Catharsium.CodingTools\appsettings.json = ..\..\..\Software\Catharsium.CodingTools\appsettings.json
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catharsium.CodingTools.Interface.Terminal.Tests", "Catharsium.CodingTools.Interface.Terminal.Tests\Catharsium.CodingTools.Interface.Terminal.Tests.csproj", "{927C11A4-0B9F-404D-844C-31F2E833EF54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catharsium.CodingTools", "Catharsium.CodingTools\Catharsium.CodingTools.csproj", "{AF92F798-7EEA-48FD-AF61-7D335A046499}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catharsium.CodingTools.Tests", "Catharsium.CodingTools.Tests\Catharsium.CodingTools.Tests.csproj", "{722B4395-86A0-4049-8900-087235C7C86A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D55E46EA-BF64-463F-B694-2235BA458CAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D55E46EA-BF64-463F-B694-2235BA458CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D55E46EA-BF64-463F-B694-2235BA458CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D55E46EA-BF64-463F-B694-2235BA458CAC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{927C11A4-0B9F-404D-844C-31F2E833EF54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{927C11A4-0B9F-404D-844C-31F2E833EF54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{927C11A4-0B9F-404D-844C-31F2E833EF54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{927C11A4-0B9F-404D-844C-31F2E833EF54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF92F798-7EEA-48FD-AF61-7D335A046499}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF92F798-7EEA-48FD-AF61-7D335A046499}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF92F798-7EEA-48FD-AF61-7D335A046499}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF92F798-7EEA-48FD-AF61-7D335A046499}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722B4395-86A0-4049-8900-087235C7C86A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722B4395-86A0-4049-8900-087235C7C86A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722B4395-86A0-4049-8900-087235C7C86A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722B4395-86A0-4049-8900-087235C7C86A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
