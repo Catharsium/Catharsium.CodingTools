@@ -5,7 +5,6 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3E612862-1930-4E39-90B4-58CBF6B4DC00}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\Software\Catharsium.CodingTools\appsettings.json = ..\..\..\Software\Catharsium.CodingTools\appsettings.json
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
@@ -15,9 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catharsium.CodingTools.Test
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{DC6DC174-058C-4767-8078-8EC83858A961}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catharsium.CodingTools.Tools.Jira", "Tools\Catharsium.CodingTools.Tools.Jira\Catharsium.CodingTools.Tools.Jira.csproj", "{6804E384-4DFD-440C-A6D6-FE45081073C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catharsium.CodingTools.Tools.Jira", "Tools\Catharsium.CodingTools.Tools.Jira\Catharsium.CodingTools.Tools.Jira.csproj", "{6804E384-4DFD-440C-A6D6-FE45081073C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catharsium.CodingTools.Tools.Jira.Tests", "Catharsium.CodingTools.Tools.Jira.Tests\Catharsium.CodingTools.Tools.Jira.Tests.csproj", "{852C9EE2-993A-4B1B-A2FE-F2CDC8F3CA50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catharsium.CodingTools.Tools.Jira.Tests", "Catharsium.CodingTools.Tools.Jira.Tests\Catharsium.CodingTools.Tools.Jira.Tests.csproj", "{852C9EE2-993A-4B1B-A2FE-F2CDC8F3CA50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
