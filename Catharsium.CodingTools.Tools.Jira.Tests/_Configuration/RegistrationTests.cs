@@ -2,8 +2,8 @@
 using Catharsium.CodingTools.Tools.Jira.ActionHandlers;
 using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
 using Catharsium.CodingTools.Tools.Jira.ActionHandlers.Steps;
+using Catharsium.CodingTools.Tools.Jira.Client;
 using Catharsium.CodingTools.Tools.Jira.Interfaces;
-using Catharsium.CodingTools.Tools.Jira.Services;
 using Catharsium.Util.IO.Console.ActionHandlers.Interfaces;
 using Catharsium.Util.Testing.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -22,18 +22,20 @@ public class RegistrationTests
         var config = Substitute.For<IConfiguration>();
 
         serviceCollection.AddJiraCodingTools(config);
+        serviceCollection.ReceivedRegistration<Atlassian.Jira.Jira>();
+        serviceCollection.ReceivedRegistration<IJiraClient, JiraClient>();
+
         serviceCollection.ReceivedRegistration<IMenuActionHandler, JiraActionHandler>();
 
-        serviceCollection.ReceivedRegistration<IJiraActionHandler, JiraWorklogOverviewActionHandler>();
-        serviceCollection.ReceivedRegistration<IJiraActionHandler, JiraSprintOverviewActionHandler>();
-        serviceCollection.ReceivedRegistration<IJiraActionHandler, JiraAddWorklogActionHandler>();
-        serviceCollection.ReceivedRegistration<IJiraActionHandler, JiraRemoveWorklogActionHandler>();
+        serviceCollection.ReceivedRegistration<IJiraActionHandler, WorklogOverviewActionHandler>();
+        serviceCollection.ReceivedRegistration<IJiraActionHandler, SprintOverviewActionHandler>();
+        serviceCollection.ReceivedRegistration<IJiraActionHandler, TeamOverviewActionHandler>();
+        serviceCollection.ReceivedRegistration<IJiraActionHandler, AddWorklogActionHandler>();
+        serviceCollection.ReceivedRegistration<IJiraActionHandler, RemoveWorklogActionHandler>();
 
         serviceCollection.ReceivedRegistration<IJiraIssueSelector, JiraIssueSelector>();
 
-        serviceCollection.ReceivedRegistration<IJiraWorklogService, JiraWorklogService>();
+        serviceCollection.ReceivedRegistration<IWorklogService, WorklogService>();
         serviceCollection.ReceivedRegistration<ITimesheetService, TimesheetService>();
-
-        serviceCollection.ReceivedRegistration<Atlassian.Jira.Jira>();
     }
 }

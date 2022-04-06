@@ -5,12 +5,12 @@ using Catharsium.Util.IO.Console.ActionHandlers.Base;
 using Catharsium.Util.IO.Console.Interfaces;
 namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers;
 
-public class JiraSprintOverviewActionHandler : BaseActionHandler, IJiraActionHandler
+public class SprintOverviewActionHandler : BaseActionHandler, IJiraActionHandler
 {
     private readonly Atlassian.Jira.Jira jira;
 
 
-    public JiraSprintOverviewActionHandler(Atlassian.Jira.Jira jira, IConsole console)
+    public SprintOverviewActionHandler(Atlassian.Jira.Jira jira, IConsole console)
         : base(console, "Sprint overview")
     {
         this.jira = jira;

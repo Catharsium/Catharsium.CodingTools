@@ -6,6 +6,9 @@ public class IssueAdapter
     private Issue InternalIssue { get; }
 
 
+    public IssueAdapter() { }
+
+
     public IssueAdapter(Issue issue)
     {
         this.InternalIssue = issue;
@@ -22,6 +25,12 @@ public class IssueAdapter
     public async Task<Worklog> AddWorklogAsync(Worklog worklog, WorklogStrategy worklogStrategy = WorklogStrategy.AutoAdjustRemainingEstimate, string newEstimate = null, CancellationToken token = default)
     {
         return await this.InternalIssue.AddWorklogAsync(worklog, worklogStrategy, newEstimate, token);
+    }
+
+
+    public async Task DeleteWorklogAsync(WorklogAdapter worklog, WorklogStrategy worklogStrategy = WorklogStrategy.AutoAdjustRemainingEstimate, string newEstimate = null, CancellationToken token = default)
+    {
+        await this.InternalIssue.DeleteWorklogAsync(worklog.InternalWorklog, worklogStrategy, newEstimate, token);
     }
 
 

@@ -18,14 +18,14 @@ public static class Registration
 
         services.AddConsoleIoUtilities(config);
 
+        services.AddJiraCodingTools(config);
+
         services.AddScoped<IMenuActionHandler, GenerationActionHandler>();
         services.AddScoped<IMenuActionHandler, EncryptionActionHandler>();
 
         services.AddScoped<IGenerationActionHandler, GuidActionHandler>();
 
         services.AddScoped<IEncryptionActionHandler, Sha256EncryptionActionHandler>();
-
-        services.AddJiraCodingTools(config);
 
         return services;
     }

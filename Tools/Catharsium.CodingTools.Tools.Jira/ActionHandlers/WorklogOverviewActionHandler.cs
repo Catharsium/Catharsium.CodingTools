@@ -5,12 +5,12 @@ using Catharsium.Util.IO.Console.Interfaces;
 using Catharsium.Util.Time.Extensions;
 namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers;
 
-public class JiraWorklogOverviewActionHandler : BaseActionHandler, IJiraActionHandler
+public class WorklogOverviewActionHandler : BaseActionHandler, IJiraActionHandler
 {
     private readonly ITimesheetService timesheetService;
 
 
-    public JiraWorklogOverviewActionHandler(ITimesheetService timesheetService, IConsole console)
+    public WorklogOverviewActionHandler(ITimesheetService timesheetService, IConsole console)
         : base(console, "Worklog overview")
     {
         this.timesheetService = timesheetService;

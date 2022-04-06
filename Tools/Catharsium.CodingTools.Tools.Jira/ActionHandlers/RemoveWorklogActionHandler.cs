@@ -5,21 +5,18 @@ using Catharsium.Util.IO.Console.ActionHandlers.Base;
 using Catharsium.Util.IO.Console.Interfaces;
 namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers;
 
-public class JiraRemoveWorklogActionHandler : BaseActionHandler, IJiraActionHandler
+public class RemoveWorklogActionHandler : BaseActionHandler, IJiraActionHandler
 {
-    private readonly Atlassian.Jira.Jira jira;
     private readonly IJiraIssueSelector selectIssueSelector;
-    private readonly IJiraWorklogService worklogService;
+    private readonly IWorklogService worklogService;
 
 
-    public JiraRemoveWorklogActionHandler(
-        Atlassian.Jira.Jira jira,
+    public RemoveWorklogActionHandler(
         IJiraIssueSelector selectIssueSelector,
-        IJiraWorklogService worklogService,
+        IWorklogService worklogService,
         IConsole console)
         : base(console, "Delete worklog")
     {
-        this.jira = jira;
         this.selectIssueSelector = selectIssueSelector;
         this.worklogService = worklogService;
     }
@@ -38,12 +35,12 @@ public class JiraRemoveWorklogActionHandler : BaseActionHandler, IJiraActionHand
             return;
         }
 
-        var worklogs = await this.worklogService.GetCurrentUserWorklogs(issue);
+        var worklogs = await this.worklogService.GetWorklogs(issue);
         if (worklogs.Any()) {
             this.console.WriteLine($"{issue.Key}\t{issue.Summary}");
             var selectedWorklogItem = this.console.AskForItem(worklogs);
             if (selectedWorklogItem != null) {
-                await this.jira.Issues.DeleteWorklogAsync(issue.Key, selectedWorklogItem.Id);
+                await issue.DeleteWorklogAsync(selectedWorklogItem);
                 this.console.WriteLine($"Worklog '{selectedWorklogItem}' was deleted");
             }
         }

@@ -3,38 +3,43 @@ namespace Catharsium.CodingTools.Tools.Jira.Models;
 
 public class WorklogAdapter
 {
-    private readonly Worklog worklog;
-    private readonly IssueAdapter issue;
+    public Worklog InternalWorklog { get; }
+    public IssueAdapter Issue { get; }
+
+
+    public WorklogAdapter() { }
 
 
     public WorklogAdapter(Worklog worklog, IssueAdapter issue)
     {
-        this.worklog = worklog;
-        this.issue = issue;
+        this.InternalWorklog = worklog;
+        this.Issue = issue;
     }
 
 
-    public string Id => this.worklog.Id;
+    public virtual string Id => this.InternalWorklog.Id;
 
-    public DateTime StartDate => this.worklog.StartDate.Value;
+    public virtual string Author => this.InternalWorklog.Author;
 
-    public long TimeSpentInSeconds => this.worklog.TimeSpentInSeconds;
+    public virtual DateTime StartDate => this.InternalWorklog.StartDate.Value;
+
+    public virtual long TimeSpentInSeconds => this.InternalWorklog.TimeSpentInSeconds;
 
 
 
     public override string ToString()
     {
-        var timespan = TimeSpan.FromSeconds(this.worklog.TimeSpentInSeconds);
-        return $"{this.worklog.StartDate:yyyy-MM-dd}\t{timespan.Hours:0}:{timespan.Minutes:00}";
+        var timespan = TimeSpan.FromSeconds(this.InternalWorklog.TimeSpentInSeconds);
+        return $"{this.InternalWorklog.StartDate:yyyy-MM-dd}\t{timespan.Hours:0}:{timespan.Minutes:00}";
     }
 
 
     public string ToReferenceString()
     {
-        var timespan = TimeSpan.FromSeconds(this.worklog.TimeSpentInSeconds);
-        var space = this.issue.Key.Length < 8
+        var timespan = TimeSpan.FromSeconds(this.InternalWorklog.TimeSpentInSeconds);
+        var space = this.Issue.Key.Length < 8
             ? "\t"
             : "";
-        return $"{this.issue.Key}\t{space}{timespan.Hours:0}:{timespan.Minutes:00}";
+        return $"{this.Issue.Key}\t{space}{timespan.Hours:0}:{timespan.Minutes:00}";
     }
 }

@@ -2,5 +2,4 @@
 
 public class CodingToolsSettings
 {
-    public JiraSettings Jira { get; set; }
 }

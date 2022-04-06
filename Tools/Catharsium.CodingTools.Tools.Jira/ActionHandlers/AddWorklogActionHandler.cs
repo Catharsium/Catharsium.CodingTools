@@ -6,21 +6,18 @@ using Catharsium.Util.IO.Console.ActionHandlers.Base;
 using Catharsium.Util.IO.Console.Interfaces;
 namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers;
 
-public class JiraAddWorklogActionHandler : BaseActionHandler, IJiraActionHandler
+public class AddWorklogActionHandler : BaseActionHandler, IJiraActionHandler
 {
-    private readonly Atlassian.Jira.Jira jira;
     private readonly IJiraIssueSelector jiraSelectIssueSelector;
-    private readonly IJiraWorklogService worklogService;
+    private readonly IWorklogService worklogService;
 
 
-    public JiraAddWorklogActionHandler(
-        Atlassian.Jira.Jira jira,
+    public AddWorklogActionHandler(
         IJiraIssueSelector jiraSelectIssueSelector,
-        IJiraWorklogService worklogService,
+        IWorklogService worklogService,
         IConsole console)
         : base(console, "Add worklog")
     {
-        this.jira = jira;
         this.jiraSelectIssueSelector = jiraSelectIssueSelector;
         this.worklogService = worklogService;
     }
@@ -39,7 +36,7 @@ public class JiraAddWorklogActionHandler : BaseActionHandler, IJiraActionHandler
             return;
         }
 
-        var worklogs = await this.worklogService.GetCurrentUserWorklogs(issue);
+        var worklogs = await this.worklogService.GetWorklogs(issue);
         foreach (var worklog in worklogs) {
             this.console.WriteLine(worklog.ToString());
         }
