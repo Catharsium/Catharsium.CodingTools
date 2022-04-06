@@ -9,14 +9,19 @@ public class JiraRemoveWorklogActionHandler : BaseActionHandler, IJiraActionHand
 {
     private readonly Atlassian.Jira.Jira jira;
     private readonly IJiraIssueSelector selectIssueSelector;
-    private readonly IJiraWorklogService worklogRetriever;
+    private readonly IJiraWorklogService worklogService;
 
-    public JiraRemoveWorklogActionHandler(Atlassian.Jira.Jira jira, IJiraIssueSelector selectIssueSelector, IJiraWorklogService WorklogRetriever, IConsole console)
+
+    public JiraRemoveWorklogActionHandler(
+        Atlassian.Jira.Jira jira,
+        IJiraIssueSelector selectIssueSelector,
+        IJiraWorklogService worklogService,
+        IConsole console)
         : base(console, "Delete worklog")
     {
         this.jira = jira;
         this.selectIssueSelector = selectIssueSelector;
-        this.worklogRetriever = WorklogRetriever;
+        this.worklogService = worklogService;
     }
 
 
@@ -33,7 +38,7 @@ public class JiraRemoveWorklogActionHandler : BaseActionHandler, IJiraActionHand
             return;
         }
 
-        var worklogs = await this.worklogRetriever.GetCurrentUserWorklogs(issue);
+        var worklogs = await this.worklogService.GetCurrentUserWorklogs(issue);
         if (worklogs.Any()) {
             this.console.WriteLine($"{issue.JiraIdentifier}\t{issue.Key}");
             var selectedWorklogItem = this.console.AskForItem(worklogs);
