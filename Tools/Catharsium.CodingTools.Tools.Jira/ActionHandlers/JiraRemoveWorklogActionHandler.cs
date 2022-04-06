@@ -1,4 +1,5 @@
 ﻿using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
+using Catharsium.CodingTools.Tools.Jira.Interfaces;
 using Catharsium.CodingTools.Tools.Jira.Models;
 using Catharsium.Util.IO.Console.ActionHandlers.Base;
 using Catharsium.Util.IO.Console.Interfaces;
@@ -8,9 +9,9 @@ public class JiraRemoveWorklogActionHandler : BaseActionHandler, IJiraActionHand
 {
     private readonly Atlassian.Jira.Jira jira;
     private readonly IJiraIssueSelector selectIssueSelector;
-    private readonly IJiraWorklogRetriever worklogRetriever;
+    private readonly IJiraWorklogService worklogRetriever;
 
-    public JiraRemoveWorklogActionHandler(Atlassian.Jira.Jira jira, IJiraIssueSelector selectIssueSelector, IJiraWorklogRetriever WorklogRetriever, IConsole console)
+    public JiraRemoveWorklogActionHandler(Atlassian.Jira.Jira jira, IJiraIssueSelector selectIssueSelector, IJiraWorklogService WorklogRetriever, IConsole console)
         : base(console, "Delete worklog")
     {
         this.jira = jira;

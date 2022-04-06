@@ -1,9 +1,9 @@
 ﻿using Catharsium.CodingTools.Tools.Jira._Configuration;
-using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
+using Catharsium.CodingTools.Tools.Jira.Interfaces;
 using Catharsium.CodingTools.Tools.Jira.Models;
 namespace Catharsium.CodingTools.Tools.Jira.Services;
 
-public class JiraWorklogService : IJiraWorklogRetriever
+public class JiraWorklogService : IJiraWorklogService
 {
     private readonly Atlassian.Jira.Jira jira;
     private readonly JiraCodingToolsSettings settings;

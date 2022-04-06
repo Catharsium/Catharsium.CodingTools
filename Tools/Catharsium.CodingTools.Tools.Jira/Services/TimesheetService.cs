@@ -1,5 +1,4 @@
 ﻿using Catharsium.CodingTools.Tools.Jira._Configuration;
-using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
 using Catharsium.CodingTools.Tools.Jira.Interfaces;
 using Catharsium.CodingTools.Tools.Jira.Models;
 namespace Catharsium.CodingTools.Tools.Jira.Services;
@@ -7,10 +6,10 @@ namespace Catharsium.CodingTools.Tools.Jira.Services;
 public class TimesheetService : ITimesheetService
 {
     private readonly Atlassian.Jira.Jira jira;
-    private readonly IJiraWorklogRetriever worklogRetriever;
+    private readonly IJiraWorklogService worklogRetriever;
 
 
-    public TimesheetService(Atlassian.Jira.Jira jira, IJiraWorklogRetriever worklogRetriever)
+    public TimesheetService(Atlassian.Jira.Jira jira, IJiraWorklogService worklogRetriever)
     {
         this.jira = jira;
         this.worklogRetriever = worklogRetriever;
