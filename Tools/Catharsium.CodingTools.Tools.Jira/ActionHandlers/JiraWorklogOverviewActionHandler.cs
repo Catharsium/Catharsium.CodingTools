@@ -1,6 +1,5 @@
-﻿using Catharsium.CodingTools.Tools.Jira._Configuration;
-using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
-using Catharsium.CodingTools.Tools.Jira.Models;
+﻿using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
+using Catharsium.CodingTools.Tools.Jira.Interfaces;
 using Catharsium.Util.IO.Console.ActionHandlers.Base;
 using Catharsium.Util.IO.Console.Interfaces;
 using Catharsium.Util.Time.Extensions;
@@ -8,15 +7,13 @@ namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers;
 
 public class JiraWorklogOverviewActionHandler : BaseActionHandler, IJiraActionHandler
 {
-    private readonly Atlassian.Jira.Jira jira;
-    private readonly IJiraWorklogRetriever worklogRetriever;
+    private readonly ITimesheetService timesheetService;
 
 
-    public JiraWorklogOverviewActionHandler(Atlassian.Jira.Jira jira, IJiraWorklogRetriever worklogRetriever, IConsole console)
+    public JiraWorklogOverviewActionHandler(ITimesheetService timesheetService, IConsole console)
         : base(console, "Worklog overview")
     {
-        this.jira = jira;
-        this.worklogRetriever = worklogRetriever;
+        this.timesheetService = timesheetService;
     }
 
 
@@ -25,21 +22,7 @@ public class JiraWorklogOverviewActionHandler : BaseActionHandler, IJiraActionHa
         var selectedDate = this.console.AskForDate("Which week would you like to see? (yyyy-MM-dd or empty for current week):", DateTime.Today);
         var startDate = selectedDate.GetDayOfWeek(DayOfWeek.Monday, DayOfWeek.Monday);
         var endDate = selectedDate.GetDayOfWeek(DayOfWeek.Friday, DayOfWeek.Monday);
-        var timesheet = new Dictionary<DateTime, List<WorklogAdapter>>();
-
-        var query = JiraQueries.LoggedDuringPeriod.Replace("{startDate}", startDate.AddDays(-1).ToString("yyyy-MM-dd")).Replace("{endDate}", endDate.ToString("yyyy-MM-dd"));
-        var issues = (await this.jira.Issues.GetIssuesFromJqlAsync(query)).Select(i => new IssueAdapter(i));
-        foreach (var issue in issues) {
-            var worklogs = await this.worklogRetriever.GetCurrentUserWorklogs(issue);
-            foreach (var worklog in worklogs) {
-                if (timesheet.ContainsKey(worklog.StartDate.Date)) {
-                    timesheet[worklog.StartDate.Date].Add(worklog);
-                }
-                else {
-                    timesheet.Add(worklog.StartDate.Date, new List<WorklogAdapter> { worklog });
-                }
-            }
-        }
+        var timesheet = await this.timesheetService.GetTimesheet(startDate, endDate);
 
         while (startDate <= endDate) {
             if (timesheet.ContainsKey(startDate)) {

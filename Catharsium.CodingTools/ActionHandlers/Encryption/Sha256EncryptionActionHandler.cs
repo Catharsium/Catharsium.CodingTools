@@ -8,7 +8,7 @@ namespace Catharsium.CodingTools.ActionHandlers.Encryption;
 public class Sha256EncryptionActionHandler : BaseActionHandler, IEncryptionActionHandler
 {
     public Sha256EncryptionActionHandler(IConsole console)
-        : base(console, "Encrypt (SHA256)")
+        : base(console, "Encrypt with SHA256")
     {
     }
 

@@ -2,6 +2,7 @@
 using Catharsium.CodingTools.Tools.Jira.ActionHandlers;
 using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
 using Catharsium.CodingTools.Tools.Jira.ActionHandlers.Steps;
+using Catharsium.CodingTools.Tools.Jira.Services;
 using Catharsium.Util.IO.Console.ActionHandlers.Interfaces;
 using Catharsium.Util.Testing.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,7 @@ public class RegistrationTests
         serviceCollection.ReceivedRegistration<IJiraActionHandler, JiraRemoveWorklogActionHandler>();
 
         serviceCollection.ReceivedRegistration<IJiraIssueSelector, JiraIssueSelector>();
-        serviceCollection.ReceivedRegistration<IJiraWorklogRetriever, JiraWorklogRetriever>();
+        serviceCollection.ReceivedRegistration<IJiraWorklogRetriever, JiraWorklogService>();
 
         serviceCollection.ReceivedRegistration<Atlassian.Jira.Jira>();
     }

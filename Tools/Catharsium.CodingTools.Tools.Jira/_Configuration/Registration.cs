@@ -1,6 +1,7 @@
 ﻿using Catharsium.CodingTools.Tools.Jira.ActionHandlers;
 using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
 using Catharsium.CodingTools.Tools.Jira.ActionHandlers.Steps;
+using Catharsium.CodingTools.Tools.Jira.Services;
 using Catharsium.Util.Configuration.Extensions;
 using Catharsium.Util.IO.Console._Configuration;
 using Catharsium.Util.IO.Console.ActionHandlers.Interfaces;
@@ -25,7 +26,7 @@ public static class Registration
         services.AddScoped<IJiraActionHandler, JiraRemoveWorklogActionHandler>();
 
         services.AddScoped<IJiraIssueSelector, JiraIssueSelector>();
-        services.AddScoped<IJiraWorklogRetriever, JiraWorklogRetriever>();
+        services.AddScoped<IJiraWorklogRetriever, JiraWorklogService>();
 
         services.AddSingleton(sp => Atlassian.Jira.Jira.CreateRestClient(configuration.Url, configuration.Username, configuration.Password));
 

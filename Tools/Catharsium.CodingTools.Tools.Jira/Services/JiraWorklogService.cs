@@ -1,16 +1,15 @@
 ﻿using Catharsium.CodingTools.Tools.Jira._Configuration;
 using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
 using Catharsium.CodingTools.Tools.Jira.Models;
+namespace Catharsium.CodingTools.Tools.Jira.Services;
 
-namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers.Steps;
-
-public class JiraWorklogRetriever : IJiraWorklogRetriever
+public class JiraWorklogService : IJiraWorklogRetriever
 {
     private readonly Atlassian.Jira.Jira jira;
     private readonly JiraCodingToolsSettings settings;
 
 
-    public JiraWorklogRetriever(Atlassian.Jira.Jira jira, JiraCodingToolsSettings settings)
+    public JiraWorklogService(Atlassian.Jira.Jira jira, JiraCodingToolsSettings settings)
     {
         this.jira = jira;
         this.settings = settings;
