@@ -1,5 +1,4 @@
 ﻿using Atlassian.Jira;
-
 namespace Catharsium.CodingTools.Tools.Jira.Models;
 
 public class IssueAdapter
@@ -14,6 +13,8 @@ public class IssueAdapter
 
 
     public string Key => this.InternalIssue.Key.Value;
+
+    public string Summary => this.InternalIssue.Summary;
 
     public string JiraIdentifier => this.InternalIssue.JiraIdentifier;
 

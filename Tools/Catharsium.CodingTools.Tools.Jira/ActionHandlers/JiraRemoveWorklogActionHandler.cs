@@ -40,7 +40,7 @@ public class JiraRemoveWorklogActionHandler : BaseActionHandler, IJiraActionHand
 
         var worklogs = await this.worklogService.GetCurrentUserWorklogs(issue);
         if (worklogs.Any()) {
-            this.console.WriteLine($"{issue.JiraIdentifier}\t{issue.Key}");
+            this.console.WriteLine($"{issue.Key}\t{issue.Summary}");
             var selectedWorklogItem = this.console.AskForItem(worklogs);
             if (selectedWorklogItem != null) {
                 await this.jira.Issues.DeleteWorklogAsync(issue.Key, selectedWorklogItem.Id);
