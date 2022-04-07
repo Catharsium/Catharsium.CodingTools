@@ -19,8 +19,7 @@ public class WorklogService : IWorklogService
     {
         var query = JiraQueries.IssuesForUsersWithWorklogsInPeriod
             .Replace("{startDate}", startDate.AddDays(-1).ToString("yyyy-MM-dd"))
-            .Replace("{endDate}", endDate.ToString("yyyy-MM-dd"))
-            .Replace("{users}", string.Join(" OR ", this.settings.TeamMembers.Select(m => $"worklogAuthor = \"{m}\"")));
+            .Replace("{endDate}", endDate.ToString("yyyy-MM-dd"));
         var issues = (await this.jiraClient.GetIssuesByQuery(query));
 
         var result = new List<WorklogAdapter>();

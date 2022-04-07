@@ -13,6 +13,6 @@ public static class JiraQueries
         "worklogAuthor = currentUser()";
     public static readonly string IssuesForUsersWithWorklogsInPeriod =
         "project = IDN AND " +
-        "worklogDate >= \"{startDate}\" AND worklogDate <= \"{endDate}\" AND " +
-        "({users})";
+        "worklogDate >= \"{startDate}\" AND worklogDate <= \"{endDate}\" " +
+        "ORDER BY issuekey ASC";
 }

@@ -17,7 +17,18 @@ public class JiraClient : IJiraClient
 
     public async Task<IEnumerable<IssueAdapter>> GetIssuesByQuery(string query)
     {
-        return (await this.jira.Issues.GetIssuesFromJqlAsync(query)).Select(i => new IssueAdapter(i));
+        var result = new List<IssueAdapter>();
+        var startAt = 0;
+        var pageSize = 50;
+        while (true) {
+            var issues = (await this.jira.Issues.GetIssuesFromJqlAsync(query, int.MaxValue, startAt)).Select(i => new IssueAdapter(i));
+            result.AddRange(issues); 
+            if (issues.Count() < pageSize) {
+                break;
+            }
+            startAt += pageSize;
+        }
+        return result;
     }
 
 

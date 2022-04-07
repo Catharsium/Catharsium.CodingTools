@@ -23,14 +23,14 @@ public class LabelReportActionHandler : BaseActionHandler, IJiraActionHandler
     {
         var now = DateTime.Now;
         var selectedYear = this.console.AskForInt("Enter the year:");
-        if(selectedYear == null || selectedYear > now.Year) {
-            selectedYear =now.Year;
+        if (selectedYear == null || selectedYear > now.Year) {
+            selectedYear = now.Year;
         }
         var selectedMonth = this.console.AskForInt("Enter the month:");
-        if(selectedMonth == null) {
+        if (selectedMonth == null) {
             selectedMonth = now.Month;
         }
-        if (selectedYear == now.Year && selectedMonth > now.Month) { 
+        if (selectedYear == now.Year && selectedMonth > now.Month) {
             selectedMonth = now.Month;
         }
         var startDate = new DateTime(selectedYear.Value, selectedMonth.Value, 1).AddDays(-1);
@@ -49,7 +49,7 @@ public class LabelReportActionHandler : BaseActionHandler, IJiraActionHandler
             csv.AppendLine($"\"{issue.Key.Project}\",\"{issue.Key.Type}\",\"{issue.Key.Key}\",\"{issue.Key.Summary}\",\"{issue.Key.Priority}\",\"{labels}\",\"{timespan.TotalHours}\"");
         }
         var file = this.fileFactory.CreateFile($"D:\\\\WBSO controle {selectedYear}-{selectedMonth}.csv");
-        if(file.Exists) {
+        if (file.Exists) {
             file.Delete();
         }
         var stream = file.CreateText();
