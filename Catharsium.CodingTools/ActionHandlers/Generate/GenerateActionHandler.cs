@@ -3,9 +3,9 @@ using Catharsium.Util.IO.Console.ActionHandlers.Base;
 using Catharsium.Util.IO.Console.Interfaces;
 namespace Catharsium.CodingTools.ActionHandlers.Generate;
 
-public class GenerationActionHandler : BaseMenuActionHandler<IGenerationActionHandler>
+public class GenerateActionHandler : BaseMenuActionHandler<IGenerateActionHandler>
 {
-    public GenerationActionHandler(IEnumerable<IGenerationActionHandler> actionHandlers, IConsole console)
+    public GenerateActionHandler(IEnumerable<IGenerateActionHandler> actionHandlers, IConsole console)
         : base(actionHandlers, console, "Generate")
     {
     }

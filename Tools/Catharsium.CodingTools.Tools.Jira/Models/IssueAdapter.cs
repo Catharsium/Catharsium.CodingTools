@@ -17,7 +17,15 @@ public class IssueAdapter
 
     public string Key => this.InternalIssue.Key.Value;
 
+    public string Project => this.InternalIssue.Project;
+
+    public string Type => this.InternalIssue.Type.Name;
+
+    public string Priority => this.InternalIssue.Priority.Name;
+
     public string Summary => this.InternalIssue.Summary;
+
+    public string[] Labels => this.InternalIssue.Labels.ToArray();
 
     public string JiraIdentifier => this.InternalIssue.JiraIdentifier;
 

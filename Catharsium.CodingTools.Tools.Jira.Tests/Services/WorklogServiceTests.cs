@@ -53,10 +53,13 @@ namespace Catharsium.CodingTools.Tools.Jira.Tests.Services
             this.GetDependency<IJiraClient>().GetIssuesByQuery(Arg.Is<string>(s => s == expectedQuery)).Returns(Task.FromResult((IEnumerable<IssueAdapter>)issues));
             var worklog1 = Substitute.For<WorklogAdapter>();
             worklog1.Author.Returns(this.Settings.TeamMembers[0]);
+            worklog1.StartDate.Returns(this.EndDate);
             var worklog2 = Substitute.For<WorklogAdapter>();
             worklog2.Author.Returns(this.Settings.TeamMembers[1]);
+            worklog2.StartDate.Returns(this.EndDate);
             var worklog3 = Substitute.For<WorklogAdapter>();
             worklog3.Author.Returns("Other member");
+            worklog3.StartDate.Returns(this.EndDate);
             this.GetDependency<IJiraClient>().GetWorklogs(issues.ElementAt(0))
                 .Returns(Task.FromResult(new[] { worklog1 }.AsEnumerable()));
             this.GetDependency<IJiraClient>().GetWorklogs(issues.ElementAt(1))
@@ -101,8 +104,10 @@ namespace Catharsium.CodingTools.Tools.Jira.Tests.Services
             this.GetDependency<IJiraClient>().GetIssuesByQuery(Arg.Is<string>(s => s == expectedQuery)).Returns(Task.FromResult((IEnumerable<IssueAdapter>)issues));
             var worklog1 = Substitute.For<WorklogAdapter>();
             worklog1.Author.Returns(this.Settings.Username);
+            worklog1.StartDate.Returns(this.EndDate);
             var worklog2 = Substitute.For<WorklogAdapter>();
             worklog2.Author.Returns("Other member");
+            worklog2.StartDate.Returns(this.EndDate);
             this.GetDependency<IJiraClient>().GetWorklogs(issues.ElementAt(0))
                 .Returns(Task.FromResult(new[] { worklog1 }.AsEnumerable()));
             this.GetDependency<IJiraClient>().GetWorklogs(issues.ElementAt(1))

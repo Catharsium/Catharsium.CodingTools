@@ -1,4 +1,5 @@
 ﻿using Catharsium.CodingTools._Configuration;
+using Catharsium.Util.Configuration.Extensions;
 using Catharsium.Util.IO.Console.ActionHandlers.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ class Program
 
         var serviceProvider = new ServiceCollection()
             .AddCodingTools(configuration)
+            .RegisterTypes(configuration.GetSection("Catharsium.CodingTools").Get<CodingToolsSettings>().ActionHandlers, ServiceLifetime.Scoped)
             .BuildServiceProvider();
 
         var mainMenuActionHandler = serviceProvider.GetService<IMainMenuActionHandler>();

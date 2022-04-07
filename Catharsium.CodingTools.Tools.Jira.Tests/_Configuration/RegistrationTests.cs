@@ -4,7 +4,6 @@ using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
 using Catharsium.CodingTools.Tools.Jira.ActionHandlers.Steps;
 using Catharsium.CodingTools.Tools.Jira.Client;
 using Catharsium.CodingTools.Tools.Jira.Interfaces;
-using Catharsium.Util.IO.Console.ActionHandlers.Interfaces;
 using Catharsium.Util.Testing.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,8 +23,6 @@ public class RegistrationTests
         serviceCollection.AddJiraCodingTools(config);
         serviceCollection.ReceivedRegistration<Atlassian.Jira.Jira>();
         serviceCollection.ReceivedRegistration<IJiraClient, JiraClient>();
-
-        serviceCollection.ReceivedRegistration<IMenuActionHandler, JiraActionHandler>();
 
         serviceCollection.ReceivedRegistration<IJiraActionHandler, WorklogOverviewActionHandler>();
         serviceCollection.ReceivedRegistration<IJiraActionHandler, SprintOverviewActionHandler>();

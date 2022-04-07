@@ -2,4 +2,5 @@
 
 public class CodingToolsSettings
 {
+    public Dictionary<string, string> ActionHandlers { get; set; }
 }

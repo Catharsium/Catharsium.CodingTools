@@ -3,7 +3,7 @@ using Catharsium.Util.IO.Console.ActionHandlers.Base;
 using Catharsium.Util.IO.Console.Interfaces;
 namespace Catharsium.CodingTools.ActionHandlers.Generate;
 
-public class GuidActionHandler : BaseActionHandler, IGenerationActionHandler
+public class GuidActionHandler : BaseActionHandler, IGenerateActionHandler
 {
     public GuidActionHandler(IConsole console)
         : base(console, "Guid")
