@@ -22,7 +22,7 @@ public class JiraClient : IJiraClient
         var pageSize = 50;
         while (true) {
             var issues = (await this.jira.Issues.GetIssuesFromJqlAsync(query, int.MaxValue, startAt)).Select(i => new IssueAdapter(i));
-            result.AddRange(issues); 
+            result.AddRange(issues);
             if (issues.Count() < pageSize) {
                 break;
             }

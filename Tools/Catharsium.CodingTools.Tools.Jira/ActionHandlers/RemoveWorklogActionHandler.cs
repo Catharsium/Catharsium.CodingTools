@@ -15,7 +15,7 @@ public class RemoveWorklogActionHandler : BaseActionHandler, IJiraActionHandler
         IJiraIssueSelector selectIssueSelector,
         IWorklogService worklogService,
         IConsole console)
-        : base(console, "Delete worklog")
+        : base(console, "Uren verwijderen")
     {
         this.selectIssueSelector = selectIssueSelector;
         this.worklogService = worklogService;
@@ -31,21 +31,21 @@ public class RemoveWorklogActionHandler : BaseActionHandler, IJiraActionHandler
     public async Task Run(IssueAdapter issue)
     {
         if (issue == null) {
-            this.console.WriteLine("No issue was selected.");
+            this.console.WriteLine("Geen geldig issue geselecteerd.");
             return;
         }
 
-        var worklogs = await this.worklogService.GetWorklogs(issue);
+        var worklogs = await this.worklogService.GetWorklogsForIssue(issue);
         if (worklogs.Any()) {
             this.console.WriteLine($"{issue.Key}\t{issue.Summary}");
             var selectedWorklogItem = this.console.AskForItem(worklogs);
             if (selectedWorklogItem != null) {
                 await issue.DeleteWorklogAsync(selectedWorklogItem);
-                this.console.WriteLine($"Worklog '{selectedWorklogItem}' was deleted");
+                this.console.WriteLine($"Worklog '{selectedWorklogItem}' was verwijderd");
             }
         }
         else {
-            this.console.WriteLine("You have no work logged on this ticket.");
+            this.console.WriteLine("U heeft geen uren gelogd op dit issue.");
         }
     }
 }

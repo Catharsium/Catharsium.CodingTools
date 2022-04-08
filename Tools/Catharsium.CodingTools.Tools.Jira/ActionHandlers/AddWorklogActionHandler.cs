@@ -16,7 +16,7 @@ public class AddWorklogActionHandler : BaseActionHandler, IJiraActionHandler
         IJiraIssueSelector jiraSelectIssueSelector,
         IWorklogService worklogService,
         IConsole console)
-        : base(console, "Add worklog")
+        : base(console, "Uren toevoegen")
     {
         this.jiraSelectIssueSelector = jiraSelectIssueSelector;
         this.worklogService = worklogService;
@@ -32,16 +32,16 @@ public class AddWorklogActionHandler : BaseActionHandler, IJiraActionHandler
     public async Task Run(IssueAdapter issue)
     {
         if (issue == null) {
-            this.console.WriteLine("No issue was selected.");
+            this.console.WriteLine("Geen geldig issue geselecteerd.");
             return;
         }
 
-        var worklogs = await this.worklogService.GetWorklogs(issue);
+        var worklogs = await this.worklogService.GetWorklogsForIssue(issue);
         foreach (var worklog in worklogs) {
             this.console.WriteLine(worklog.ToString());
         }
-        var timespent = this.console.AskForText("Time spent (in Jira notation)");
-        var startDate = this.console.AskForDate("Date for the worklog (yyyy-MM-dd)", DateTime.Today);
+        var timespent = this.console.AskForText("Bestede uren <#d #h #m>");
+        var startDate = this.console.AskForDate("Datum <yyyy-MM-dd> (leeg voor vandaag)", DateTime.Today);
         await issue.AddWorklogAsync(new Worklog(timespent, startDate));
     }
 }

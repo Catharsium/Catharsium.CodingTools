@@ -3,7 +3,7 @@ namespace Catharsium.CodingTools.Tools.Jira.Interfaces;
 
 public interface IWorklogService
 {
-    Task<IEnumerable<WorklogAdapter>> GetWorklogsForTeam(DateTime startDate, DateTime endDate);
-    Task<IEnumerable<WorklogAdapter>> GetWorklogsForUser(DateTime startDate, DateTime endDate);
-    Task<IEnumerable<WorklogAdapter>> GetWorklogs(IssueAdapter issue, DateTime? startDate = null, DateTime? endDate = null, IEnumerable<string> users = null);
+    Task<IEnumerable<WorklogAdapter>> GetWorklogsInPeriod(DateTime startDate, DateTime endDate);
+    Task<IEnumerable<WorklogAdapter>> GetWorklogsInPeriodForUser(DateTime startDate, DateTime endDate);
+    Task<IEnumerable<WorklogAdapter>> GetWorklogsForIssue(IssueAdapter issue, DateTime? startDate = null, DateTime? endDate = null, IEnumerable<string> users = null);
 }

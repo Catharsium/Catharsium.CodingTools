@@ -7,11 +7,12 @@ public static class JiraQueries
         "sprint in openSprints() AND " +
         "(issuetype = Story OR issuetype = Bug OR issuetype = Improvement) OR " +
         "issuekey = IDN-234";
-    public static readonly string IssuesForCurrentUserWithWorklogsInPeriod =
+    public static readonly string IssuesWithWorklogsInPeriodForCurrentUser =
         "project = IDN AND " +
         "worklogDate >= \"{startDate}\" AND worklogDate <= \"{endDate}\" AND " +
-        "worklogAuthor = currentUser()";
-    public static readonly string IssuesForUsersWithWorklogsInPeriod =
+        "worklogAuthor = currentUser()" +
+        "ORDER BY issuekey ASC";
+    public static readonly string IssuesWithWorklogsInPeriod =
         "project = IDN AND " +
         "worklogDate >= \"{startDate}\" AND worklogDate <= \"{endDate}\" " +
         "ORDER BY issuekey ASC";

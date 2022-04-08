@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -19,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tools\Catharsium.CodingTools.Tools.Jira\Catharsium.CodingTools.Tools.Jira.csproj" />
+    <ProjectReference Include="..\Catharsium.CodingTools.Tools.Jira\Catharsium.CodingTools.Tools.Jira.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,5 +6,5 @@ public class JiraCodingToolsSettings
     public string Username { get; set; }
     public string Password { get; set; }
     public string DefaultProject { get; set; }
-    public string[] TeamMembers { get; set; }
+    public JiraReportSettings ReportSettings { get; set; }
 }

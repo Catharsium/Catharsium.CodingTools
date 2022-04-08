@@ -5,24 +5,28 @@ using Catharsium.Util.IO.Console.Interfaces;
 using Catharsium.Util.Time.Extensions;
 namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers;
 
-public class WorklogOverviewActionHandler : BaseActionHandler, IJiraActionHandler
+public class PersonalWeekOverviewActionHandler : BaseActionHandler, IJiraActionHandler
 {
     private readonly ITimesheetService timesheetService;
+    private readonly IPeriodSelector periodSelector;
 
 
-    public WorklogOverviewActionHandler(ITimesheetService timesheetService, IConsole console)
-        : base(console, "Worklog overview")
+    public PersonalWeekOverviewActionHandler(ITimesheetService timesheetService, IPeriodSelector periodSelector, IConsole console)
+        : base(console, "Persoonlijk weekoverzicht")
     {
         this.timesheetService = timesheetService;
+        this.periodSelector = periodSelector;
     }
 
 
     public override async Task Run()
     {
-        var selectedDate = this.console.AskForDate("Which week would you like to see? (yyyy-MM-dd or empty for current week):", DateTime.Today);
-        var startDate = selectedDate.GetDayOfWeek(DayOfWeek.Monday, DayOfWeek.Monday);
-        var endDate = selectedDate.GetDayOfWeek(DayOfWeek.Friday, DayOfWeek.Monday);
+        var (startDate, endDate) = this.periodSelector.SelectWorkWeek();
         var timesheet = await this.timesheetService.GetTimesheet(startDate, endDate);
+
+        this.console.WriteLine();
+        this.console.WriteLine($"Week overzicht");
+        this.console.WriteLine($"{startDate:dddd d MMMM yyyy} tot {endDate:dddd d MMMM yyyy}");
 
         while (startDate <= endDate) {
             if (timesheet.ContainsKey(startDate)) {
@@ -38,7 +42,7 @@ public class WorklogOverviewActionHandler : BaseActionHandler, IJiraActionHandle
                 if (formattedStartDate.Length < 24) {
                     formattedStartDate += "\t";
                 }
-                this.console.WriteLine($"{formattedStartDate}\t{totalTimeLogged.Hours} hours {totalTimeLogged.Minutes} minutes logged");
+                this.console.WriteLine($"{formattedStartDate}\t{totalTimeLogged.Hours}:{totalTimeLogged.Minutes} gelogd");
                 this.console.ResetColor();
                 foreach (var log in timesheet[startDate]) {
                     this.console.WriteLine($"\t{log.ToReferenceString()}");
@@ -48,7 +52,7 @@ public class WorklogOverviewActionHandler : BaseActionHandler, IJiraActionHandle
                 this.console.ForegroundColor = ConsoleColor.DarkRed;
                 this.console.WriteLine($"{startDate:dddd d MMMM yyyy}");
                 this.console.ResetColor();
-                this.console.WriteLine("\tNo worklogs");
+                this.console.WriteLine("\tGeen tijd gelogd");
             }
             startDate = startDate.AddDays(1);
         }

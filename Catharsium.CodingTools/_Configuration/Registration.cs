@@ -6,6 +6,7 @@ using Catharsium.Util.Configuration.Extensions;
 using Catharsium.Util.IO.Console._Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 
 namespace Catharsium.CodingTools._Configuration;
 
@@ -15,6 +16,9 @@ public static class Registration
     {
         var settings = config.Load<CodingToolsSettings>();
         services.AddSingleton<CodingToolsSettings, CodingToolsSettings>(provider => settings);
+        if (settings != null) {
+            CultureInfo.CurrentCulture = new CultureInfo(settings.LanguageCode);
+        }
 
         services.AddConsoleIoUtilities(config);
         services.AddJiraCodingTools(config);

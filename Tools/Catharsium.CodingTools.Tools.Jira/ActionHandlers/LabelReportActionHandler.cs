@@ -2,31 +2,31 @@
 using Catharsium.CodingTools.Tools.Jira.Interfaces;
 using Catharsium.Util.IO.Console.ActionHandlers.Base;
 using Catharsium.Util.IO.Console.Interfaces;
-using Catharsium.Util.IO.Files.Interfaces;
 using System.Text;
 namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers;
 
 public class LabelReportActionHandler : BaseActionHandler, IJiraActionHandler
 {
     private readonly IWorklogService worklogService;
-    private readonly IFileFactory fileFactory;
+    private readonly ICsvFileService csvFileService;
 
-    public LabelReportActionHandler(IWorklogService worklogService, IFileFactory fileFactory, IConsole console)
+
+    public LabelReportActionHandler(IWorklogService worklogService, ICsvFileService csvFileService, IConsole console)
         : base(console, "Label report")
     {
         this.worklogService = worklogService;
-        this.fileFactory = fileFactory;
+        this.csvFileService = csvFileService;
     }
 
 
     public override async Task Run()
     {
         var now = DateTime.Now;
-        var selectedYear = this.console.AskForInt("Enter the year:");
+        var selectedYear = this.console.AskForInt("Voer het jaartal in (leeg voor huidig jaar):");
         if (selectedYear == null || selectedYear > now.Year) {
             selectedYear = now.Year;
         }
-        var selectedMonth = this.console.AskForInt("Enter the month:");
+        var selectedMonth = this.console.AskForInt("Voer de maand in <1-12> (leeg voor huidige maand):");
         if (selectedMonth == null) {
             selectedMonth = now.Month;
         }
@@ -36,7 +36,7 @@ public class LabelReportActionHandler : BaseActionHandler, IJiraActionHandler
         var startDate = new DateTime(selectedYear.Value, selectedMonth.Value, 1).AddDays(-1);
         var endDate = startDate.AddMonths(1);
 
-        var worklogs = await this.worklogService.GetWorklogsForTeam(startDate, endDate);
+        var worklogs = await this.worklogService.GetWorklogsInPeriod(startDate, endDate);
         var issueWorklogs = worklogs.GroupBy(wl => wl.Issue);
         var csv = new StringBuilder();
         csv.AppendLine($"\"Project\",\"Type\",\"Nummer\",\"Naam\",\"Prioriteit\",\"Labels\",\"Uren\"");
@@ -48,12 +48,7 @@ public class LabelReportActionHandler : BaseActionHandler, IJiraActionHandler
             this.console.WriteLine($"{timespan.TotalHours}");
             csv.AppendLine($"\"{issue.Key.Project}\",\"{issue.Key.Type}\",\"{issue.Key.Key}\",\"{issue.Key.Summary}\",\"{issue.Key.Priority}\",\"{labels}\",\"{timespan.TotalHours}\"");
         }
-        var file = this.fileFactory.CreateFile($"D:\\\\WBSO controle {selectedYear}-{selectedMonth}.csv");
-        if (file.Exists) {
-            file.Delete();
-        }
-        var stream = file.CreateText();
-        stream.Write(csv.ToString());
-        stream.Close();
+
+        this.csvFileService.WriteToFile(csv.ToString(), $"WBSO controle {selectedYear}-{selectedMonth}");
     }
 }

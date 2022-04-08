@@ -1,5 +1,7 @@
-﻿using Catharsium.CodingTools.Tools.Jira.Models;
-namespace Catharsium.CodingTools.Tools.Jira.Interfaces;
+﻿using Catharsium.CodingTools.Tools.Jira.Interfaces;
+using Catharsium.CodingTools.Tools.Jira.Models;
+
+namespace Catharsium.CodingTools.Tools.Jira.Services;
 
 public class TimesheetService : ITimesheetService
 {
@@ -14,7 +16,7 @@ public class TimesheetService : ITimesheetService
 
     public async Task<Dictionary<DateTime, List<WorklogAdapter>>> GetTimesheet(DateTime startDate, DateTime endDate)
     {
-        var worklogs = await this.worklogService.GetWorklogsForUser(startDate, endDate);
+        var worklogs = await this.worklogService.GetWorklogsInPeriodForUser(startDate, endDate);
         var result = new Dictionary<DateTime, List<WorklogAdapter>>();
         foreach (var worklog in worklogs) {
             if (result.ContainsKey(worklog.StartDate.Date)) {

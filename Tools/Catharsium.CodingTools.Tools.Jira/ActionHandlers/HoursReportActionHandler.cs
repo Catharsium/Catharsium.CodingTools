@@ -2,20 +2,21 @@
 using Catharsium.CodingTools.Tools.Jira.Interfaces;
 using Catharsium.Util.IO.Console.ActionHandlers.Base;
 using Catharsium.Util.IO.Console.Interfaces;
-using Catharsium.Util.IO.Files.Interfaces;
 using System.Text;
 
 namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers
 {
-    public class HoursReport : BaseActionHandler, IJiraActionHandler
+    public class HoursReportActionHandler : BaseActionHandler, IJiraActionHandler
     {
         private readonly IWorklogService worklogService;
-        private readonly IFileFactory fileFactory;
+        private readonly ICsvFileService csvFileService;
 
-        public HoursReport(IWorklogService worklogService, IFileFactory fileFactory, IConsole console) : base(console, "Hour report")
+
+        public HoursReportActionHandler(IWorklogService worklogService, ICsvFileService csvFileService, IConsole console)
+            : base(console, "Hour report")
         {
             this.worklogService = worklogService;
-            this.fileFactory = fileFactory;
+            this.csvFileService = csvFileService;
         }
 
 
@@ -32,10 +33,8 @@ namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers
             for (var month = 1; month <= 12; month++) {
                 var startDate = new DateTime(selectedYear.Value, month, 1).AddDays(-1);
                 var endDate = startDate.AddMonths(1);
-                var monthWorklogs = await this.worklogService.GetWorklogsForTeam(startDate, endDate);
+                var monthWorklogs = await this.worklogService.GetWorklogsInPeriod(startDate, endDate);
                 var authorWorklogs = monthWorklogs.GroupBy(wl => wl.Author);
-                var csv = new StringBuilder();
-                // csv.AppendLine($"\"Project\",\"Type\",\"Nummer\",\"Naam\",\"Prioriteit\",\"Labels\",\"Uren\"");
                 foreach (var authorWorklog in authorWorklogs.OrderBy(i => i.Key)) {
                     var issueWorklogs = authorWorklog.GroupBy(wl => wl.Issue);
 
@@ -61,23 +60,16 @@ namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers
                             OtherHours = otherTimeSpan.TotalHours
                         } };
                     }
-                    //    csv.AppendLine($"\"{issue.Key.Project}\",\"{issue.Key.Type}\",\"{issue.Key.Key}\",\"{issue.Key.Summary}\",\"{issue.Key.Priority}\",\"{labels}\",\"{timespan.TotalHours}\"");
                 }
-                //var file = this.fileFactory.CreateFile("D:\\\\urenrapportage.csv");
-                //if (file.Exists) {
-                //    file.Delete();
-                //}
-                //var stream = file.CreateText();
-                //stream.Write(csv.ToString());
-                //stream.Close();
             }
 
+            var csv = new StringBuilder();
             var totalWbso = 0d;
             foreach (var userTimesheet in userTimesheets) {
                 this.console.WriteLine($"{userTimesheet.Key}");
                 this.console.FillBlock(0, 8);
                 for (var month = 1; month <= 12; month++) {
-                    var label = new DateTime(selectedYear.Value, month, 1).ToString("MMM");
+                    var label = new DateTime(selectedYear.Value, month, 1).ToString("MMM 2022");
                     this.console.Write($"{label}");
                     this.console.FillBlock(label.Length, 8);
                 }
@@ -105,8 +97,13 @@ namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers
             }
 
             this.console.WriteLine($"Totaal: {totalWbso}");
+
+
+            // csv.AppendLine($"\"Project\",\"Type\",\"Nummer\",\"Naam\",\"Prioriteit\",\"Labels\",\"Uren\"");
+            this.csvFileService.WriteToFile(csv.ToString(), $"WBSO verantwoording {selectedYear}");
         }
     }
+
 
     public class PersonTimeSheet
     {
