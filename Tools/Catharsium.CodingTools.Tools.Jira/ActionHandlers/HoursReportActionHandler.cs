@@ -65,41 +65,61 @@ namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers
 
             var csv = new StringBuilder();
             var totalWbso = 0d;
+            csv.Append($"\"Medewerker\",\"Categorie\",");
+            for (var month = 1; month <= 12; month++) {
+                var label = new DateTime(selectedYear.Value, month, 1).ToString("MMM 2022");
+                this.console.Write($"{label}");
+                this.console.FillBlock(label.Length, 12);
+                csv.Append($"\"{label}\",");
+            }
+            csv.AppendLine("\"Totaal\"");
+
             foreach (var userTimesheet in userTimesheets) {
                 this.console.WriteLine($"{userTimesheet.Key}");
                 this.console.FillBlock(0, 8);
+                csv.Append($"\"{userTimesheet.Key}\",\"\",");
                 for (var month = 1; month <= 12; month++) {
-                    var label = new DateTime(selectedYear.Value, month, 1).ToString("MMM 2022");
-                    this.console.Write($"{label}");
-                    this.console.FillBlock(label.Length, 8);
+                    csv.Append("\"\",");
                 }
                 this.console.WriteLine();
+                csv.AppendLine("\"\"");
+
+                csv.Append("\"\",\"WBSO\",");
                 for (var month = 1; month <= 12; month++) {
-                    var monthlyHours = userTimesheet.Value.FirstOrDefault(xx => xx.Month == month - 1);
+                    var monthlyHours = userTimesheet.Value.FirstOrDefault(xx => xx.Month == month);
                     var text = monthlyHours != null ?
                         $"{monthlyHours.WbsoHours:0.0}"
                         : "";
                     this.console.Write(text);
-                    this.console.FillBlock(text.Length, 8);
+                    this.console.FillBlock(text.Length, 12);
+                    csv.Append($"\"{text}\",");
                 }
                 var wbsoSum = userTimesheet.Value.Sum(x => x.WbsoHours);
                 totalWbso += wbsoSum;
                 this.console.WriteLine($"{wbsoSum:0.00}");
+                csv.AppendLine($"\"{wbsoSum:0.00}\"");
+
+                csv.Append($"\"\",\"Overig\",");
                 for (var month = 1; month <= 12; month++) {
-                    var monthlyHours = userTimesheet.Value.FirstOrDefault(xx => xx.Month == month - 1);
+                    var monthlyHours = userTimesheet.Value.FirstOrDefault(xx => xx.Month == month);
                     var text = monthlyHours != null ?
                         $"{monthlyHours.OtherHours:0.0}"
                         : "";
                     this.console.Write(text);
-                    this.console.FillBlock(text.Length, 8);
+                    this.console.FillBlock(text.Length, 12);
+                    csv.Append($"\"{text}\",");
                 }
                 this.console.WriteLine();
+                csv.AppendLine("\"\"");
             }
 
-            this.console.WriteLine($"Totaal: {totalWbso}");
+            this.console.WriteLine($"Totaal: {totalWbso:0.0}");
 
-
-            // csv.AppendLine($"\"Project\",\"Type\",\"Nummer\",\"Naam\",\"Prioriteit\",\"Labels\",\"Uren\"");
+            csv.Append($"\"Totaal\",\"\",");
+            for (var month = 1; month <= 12; month++) {
+                csv.Append("\"\",");
+            }
+            csv.AppendLine($"\"{totalWbso:0.0}\"");
             this.csvFileService.WriteToFile(csv.ToString(), $"WBSO verantwoording {selectedYear}");
         }
     }
