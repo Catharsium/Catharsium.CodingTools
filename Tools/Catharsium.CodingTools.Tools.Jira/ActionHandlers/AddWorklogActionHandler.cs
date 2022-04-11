@@ -40,8 +40,29 @@ public class AddWorklogActionHandler : BaseActionHandler, IJiraActionHandler
         foreach (var worklog in worklogs) {
             this.console.WriteLine(worklog.ToString());
         }
-        var timespent = this.console.AskForText("Bestede uren <#d #h #m>");
+
         var startDate = this.console.AskForDate("Datum <yyyy-MM-dd> (leeg voor vandaag)", DateTime.Today);
-        await issue.AddWorklogAsync(new Worklog(timespent, startDate));
+        var timesheet = await this.worklogService.GetWorklogsInPeriodForUser(startDate, startDate);
+        var alreadyLoggedTime = TimeSpan.FromSeconds(timesheet.Select(wl => wl.TimeSpentInSeconds).Sum());
+        var remainingTimeToLog = TimeSpan.FromHours(8) - alreadyLoggedTime;
+        this.console.Write("Je hebt reeds ");
+        this.console.ForegroundColor = remainingTimeToLog.TotalMinutes > 0
+            ? ConsoleColor.DarkRed
+            : ConsoleColor.DarkGreen;
+        this.console.Write($"{alreadyLoggedTime.TotalHours}");
+        this.console.ResetColor();
+        this.console.WriteLine(" uur op deze dag gelogd.");
+        var timespent = this.console.AskForText("Bestede uren <#d #h #m> (leeg voor resterende tijd)");
+        if (string.IsNullOrWhiteSpace(timespent) && remainingTimeToLog.TotalMinutes > 0) {
+            timespent = $"{remainingTimeToLog.TotalMinutes}m";
+        }
+        if (string.IsNullOrWhiteSpace(timespent)) {
+            this.console.WriteLine("Er is geen nieuwe tijd gelogd.");
+            return;
+        }
+
+        var newWorklog = new Worklog(timespent, startDate);
+        await issue.AddWorklogAsync(newWorklog);
+        this.console.WriteLine($"{timespent} was gelogd op {issue.Key} ({startDate:dddd d MMMM yyyy})");
     }
 }
