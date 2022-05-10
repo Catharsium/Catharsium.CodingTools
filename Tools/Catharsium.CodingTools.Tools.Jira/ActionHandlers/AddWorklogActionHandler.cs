@@ -31,17 +31,17 @@ public class AddWorklogActionHandler : BaseActionHandler, IJiraActionHandler
 
     public async Task Run(IssueAdapter issue)
     {
-        if (issue == null) {
+        if(issue == null) {
             this.console.WriteLine("Geen geldig issue geselecteerd.");
             return;
         }
 
         var worklogs = await this.worklogService.GetWorklogsForIssue(issue);
-        foreach (var worklog in worklogs) {
+        foreach(var worklog in worklogs) {
             this.console.WriteLine(worklog.ToString());
         }
 
-        var startDate = this.console.AskForDate("Datum <yyyy-MM-dd> (leeg voor vandaag)", DateTime.Today);
+        var startDate = this.console.AskForDate(DateTime.Today, "Datum <yyyy-MM-dd> (leeg voor vandaag)");
         var timesheet = await this.worklogService.GetWorklogsInPeriodForUser(startDate, startDate);
         var alreadyLoggedTime = TimeSpan.FromSeconds(timesheet.Select(wl => wl.TimeSpentInSeconds).Sum());
         var remainingTimeToLog = TimeSpan.FromHours(8) - alreadyLoggedTime;
@@ -53,10 +53,10 @@ public class AddWorklogActionHandler : BaseActionHandler, IJiraActionHandler
         this.console.ResetColor();
         this.console.WriteLine(" uur op deze dag gelogd.");
         var timespent = this.console.AskForText("Bestede uren <#d #h #m> (leeg voor resterende tijd)");
-        if (string.IsNullOrWhiteSpace(timespent) && remainingTimeToLog.TotalMinutes > 0) {
+        if(string.IsNullOrWhiteSpace(timespent) && remainingTimeToLog.TotalMinutes > 0) {
             timespent = $"{remainingTimeToLog.TotalMinutes}m";
         }
-        if (string.IsNullOrWhiteSpace(timespent)) {
+        if(string.IsNullOrWhiteSpace(timespent)) {
             this.console.WriteLine("Er is geen nieuwe tijd gelogd.");
             return;
         }

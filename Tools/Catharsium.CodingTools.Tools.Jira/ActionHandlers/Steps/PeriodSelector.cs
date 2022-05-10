@@ -16,7 +16,7 @@ public class PeriodSelector : IPeriodSelector
 
     public (DateTime startDate, DateTime endDate) SelectWorkWeek()
     {
-        var selectedDate = this.console.AskForDate("Kies een week o.b.v. een datum <yyyy-MM-dd> (leeg voor vandaag):", DateTime.Today);
+        var selectedDate = this.console.AskForDate(DateTime.Today, "Kies een week o.b.v. een datum <yyyy-MM-dd> (leeg voor vandaag):");
         var startDate = selectedDate.GetDayOfWeek(DayOfWeek.Monday, DayOfWeek.Monday);
         var endDate = selectedDate.GetDayOfWeek(DayOfWeek.Friday, DayOfWeek.Monday);
         return (startDate, endDate);

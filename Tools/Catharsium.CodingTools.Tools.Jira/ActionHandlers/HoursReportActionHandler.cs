@@ -24,18 +24,18 @@ namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers
         {
             var now = DateTime.Now;
             var selectedYear = this.console.AskForInt("Enter the year:");
-            if (selectedYear == null || selectedYear > now.Year) {
+            if(selectedYear == null || selectedYear > now.Year) {
                 selectedYear = now.Year;
             }
 
             var userTimesheets = new Dictionary<string, List<PersonTimeSheet>>();
 
-            for (var month = 1; month <= 12; month++) {
+            for(var month = 1; month <= 12; month++) {
                 var startDate = new DateTime(selectedYear.Value, month, 1).AddDays(-1);
                 var endDate = startDate.AddMonths(1);
                 var monthWorklogs = await this.worklogService.GetWorklogsInPeriod(startDate, endDate);
                 var authorWorklogs = monthWorklogs.GroupBy(wl => wl.Author);
-                foreach (var authorWorklog in authorWorklogs.OrderBy(i => i.Key)) {
+                foreach(var authorWorklog in authorWorklogs.OrderBy(i => i.Key)) {
                     var issueWorklogs = authorWorklog.GroupBy(wl => wl.Issue);
 
                     var wbsoIssueWorklogs = issueWorklogs.Where(iwl => iwl.Key.Labels.Any(l => l == "WBSO"));
@@ -46,7 +46,7 @@ namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers
                     var otherSum = otherIssueWorklogs.SelectMany(wiwl => wiwl.ToList()).Sum(wiwl => wiwl.TimeSpentInSeconds);
                     var otherTimeSpan = TimeSpan.FromSeconds(otherSum);
 
-                    if (userTimesheets.ContainsKey(authorWorklog.Key)) {
+                    if(userTimesheets.ContainsKey(authorWorklog.Key)) {
                         userTimesheets[authorWorklog.Key].Add(new PersonTimeSheet {
                             Month = month,
                             WbsoHours = wbsoTimeSpan.TotalHours,
@@ -66,7 +66,7 @@ namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers
             var csv = new StringBuilder();
             var totalWbso = 0d;
             csv.Append($"\"Medewerker\",\"Categorie\",");
-            for (var month = 1; month <= 12; month++) {
+            for(var month = 1; month <= 12; month++) {
                 var label = new DateTime(selectedYear.Value, month, 1).ToString("MMM 2022");
                 this.console.Write($"{label}");
                 this.console.FillBlock(label.Length, 12);
@@ -74,18 +74,18 @@ namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers
             }
             csv.AppendLine("\"Totaal\"");
 
-            foreach (var userTimesheet in userTimesheets) {
+            foreach(var userTimesheet in userTimesheets) {
                 this.console.WriteLine($"{userTimesheet.Key}");
                 this.console.FillBlock(0, 8);
                 csv.Append($"\"{userTimesheet.Key}\",\"\",");
-                for (var month = 1; month <= 12; month++) {
+                for(var month = 1; month <= 12; month++) {
                     csv.Append("\"\",");
                 }
                 this.console.WriteLine();
                 csv.AppendLine("\"\"");
 
                 csv.Append("\"\",\"WBSO\",");
-                for (var month = 1; month <= 12; month++) {
+                for(var month = 1; month <= 12; month++) {
                     var monthlyHours = userTimesheet.Value.FirstOrDefault(xx => xx.Month == month);
                     var text = monthlyHours != null ?
                         $"{monthlyHours.WbsoHours:0.0}"
@@ -100,7 +100,7 @@ namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers
                 csv.AppendLine($"\"{wbsoSum:0.00}\"");
 
                 csv.Append($"\"\",\"Overig\",");
-                for (var month = 1; month <= 12; month++) {
+                for(var month = 1; month <= 12; month++) {
                     var monthlyHours = userTimesheet.Value.FirstOrDefault(xx => xx.Month == month);
                     var text = monthlyHours != null ?
                         $"{monthlyHours.OtherHours:0.0}"
@@ -116,7 +116,7 @@ namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers
             this.console.WriteLine($"Totaal: {totalWbso:0.0}");
 
             csv.Append($"\"Totaal\",\"\",");
-            for (var month = 1; month <= 12; month++) {
+            for(var month = 1; month <= 12; month++) {
                 csv.Append("\"\",");
             }
             csv.AppendLine($"\"{totalWbso:0.0}\"");

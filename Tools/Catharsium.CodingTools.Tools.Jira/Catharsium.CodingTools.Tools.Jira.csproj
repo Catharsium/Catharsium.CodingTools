@@ -7,8 +7,8 @@
 
   <ItemGroup>
     <PackageReference Include="Atlassian.SDK" Version="13.0.0" />
-    <PackageReference Include="Catharsium.Util.IO.Console" Version="2022.4.7.32" />
-    <PackageReference Include="Catharsium.Util.IO.Files" Version="2022.4.7.32" />
+    <PackageReference Include="Catharsium.Util.IO.Console" Version="2022.5.4.33" />
+    <PackageReference Include="Catharsium.Util.IO.Files" Version="2022.5.4.33" />
   </ItemGroup>
 
 </Project>

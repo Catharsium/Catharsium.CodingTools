@@ -28,7 +28,7 @@ namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers
             this.console.WriteLine();
             this.console.WriteLine($"Overzicht voor team");
             this.console.WriteLine($"{startDate:dddd d MMMM yyyy} tot {endDate:dddd d MMMM yyyy}");
-            foreach (var group in worklogs.OrderBy(wl => wl.Key)) {
+            foreach(var group in worklogs.OrderBy(wl => wl.Key)) {
                 var timeLogged = group.Select(wl => wl.TimeSpentInSeconds).Sum();
                 var timespan = TimeSpan.FromSeconds(timeLogged);
                 this.console.Write($"{group.Key}");

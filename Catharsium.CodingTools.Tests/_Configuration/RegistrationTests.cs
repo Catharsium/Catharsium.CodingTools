@@ -23,6 +23,7 @@ public class RegistrationTests
         serviceCollection.ReceivedRegistration<CodingToolsSettings>();
 
         serviceCollection.ReceivedRegistration<IGenerateActionHandler, GuidActionHandler>();
+        serviceCollection.ReceivedRegistration<IGenerateActionHandler, IGenerateActionHandler, RandomActionHandler>();
         serviceCollection.ReceivedRegistration<IEncryptionActionHandler, Sha256EncryptionActionHandler>();
     }
 }
