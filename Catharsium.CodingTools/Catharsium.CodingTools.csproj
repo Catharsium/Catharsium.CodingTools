@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Catharsium.Util.IO.Console" Version="2022.5.4.33" />
+    <PackageReference Include="Catharsium.Util.IO.Console" Version="2022.5.19.34" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
   </ItemGroup>
 

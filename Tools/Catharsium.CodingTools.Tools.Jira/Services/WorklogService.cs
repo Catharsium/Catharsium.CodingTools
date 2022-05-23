@@ -48,6 +48,12 @@ public class WorklogService : IWorklogService
     }
 
 
+    public async Task<IEnumerable<WorklogAdapter>> GetWorklogsForIssueForUser(IssueAdapter issue, DateTime? startDate = null, DateTime? endDate = null)
+    {
+        return await this.GetWorklogsForIssue(issue, startDate, endDate, new[] { this.settings.Username });
+    }
+
+
     public async Task<IEnumerable<WorklogAdapter>> GetWorklogsForIssue(IssueAdapter issue, DateTime? startDate = null, DateTime? endDate = null, IEnumerable<string> users = null)
     {
         var result = await this.jiraClient.GetWorklogs(issue);

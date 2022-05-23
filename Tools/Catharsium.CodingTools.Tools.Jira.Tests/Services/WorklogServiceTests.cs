@@ -132,6 +132,21 @@ namespace Catharsium.CodingTools.Tools.Jira.Tests.Services
 
         #endregion
 
+        #region GetWorklogsForIssueForUser
+
+        [TestMethod]
+        public async Task GetWorklogsForIssueForUser_ReturnsWorklogsForUser()
+        {
+            var issue = new IssueAdapter();
+            this.GetDependency<IJiraClient>().GetWorklogs(issue).Returns(Task.FromResult((IEnumerable<WorklogAdapter>)this.Worklogs));
+
+            var actual = (await this.Target.GetWorklogsForIssueForUser(issue)).ToArray();
+            Assert.AreEqual(3, actual.Length);
+            Assert.IsFalse(actual.Any(wl => wl == this.Worklogs[3]));
+        }
+
+        #endregion
+
         #region GetWorklogsForIssue
 
         [TestMethod]

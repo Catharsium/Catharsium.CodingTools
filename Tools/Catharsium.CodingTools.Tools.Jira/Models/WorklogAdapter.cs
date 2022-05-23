@@ -26,11 +26,10 @@ public class WorklogAdapter
     public virtual long TimeSpentInSeconds => this.InternalWorklog.TimeSpentInSeconds;
 
 
-
     public override string ToString()
     {
         var timespan = TimeSpan.FromSeconds(this.InternalWorklog.TimeSpentInSeconds);
-        return $"{this.InternalWorklog.StartDate:yyyy-MM-dd}\t{timespan.Hours:0}:{timespan.Minutes:00}";
+        return $"{this.InternalWorklog.StartDate:yyyy-MM-dd}\t{timespan.TotalHours}";
     }
 
 
@@ -40,6 +39,6 @@ public class WorklogAdapter
         var space = this.Issue.Key.Length < 8
             ? "\t"
             : "";
-        return $"{this.Issue.Key}\t{space}{timespan.Hours:0}:{timespan.Minutes:00}";
+        return $"{this.Issue.Key}\t{space}{timespan.TotalHours}";
     }
 }

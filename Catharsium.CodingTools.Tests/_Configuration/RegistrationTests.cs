@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-
 namespace Catharsium.CodingTools.Tests._Configuration;
 
 [TestClass]
@@ -23,7 +22,7 @@ public class RegistrationTests
         serviceCollection.ReceivedRegistration<CodingToolsSettings>();
 
         serviceCollection.ReceivedRegistration<IGenerateActionHandler, GuidActionHandler>();
-        serviceCollection.ReceivedRegistration<IGenerateActionHandler, IGenerateActionHandler, RandomActionHandler>();
+        serviceCollection.ReceivedRegistration<IGenerateActionHandler, RandomActionHandler>();
         serviceCollection.ReceivedRegistration<IEncryptionActionHandler, Sha256EncryptionActionHandler>();
     }
 }
