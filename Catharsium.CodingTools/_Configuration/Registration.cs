@@ -1,6 +1,7 @@
 ﻿using Catharsium.CodingTools.ActionHandlers._Interfaces;
 using Catharsium.CodingTools.ActionHandlers.Encryption;
 using Catharsium.CodingTools.ActionHandlers.Generate;
+using Catharsium.CodingTools.ActionHandlers.Notify;
 using Catharsium.CodingTools.Tools.Jira._Configuration;
 using Catharsium.Util.Configuration.Extensions;
 using Catharsium.Util.IO.Console._Configuration;
@@ -15,7 +16,7 @@ public static class Registration
     {
         var settings = config.Load<CodingToolsSettings>();
         services.AddSingleton<CodingToolsSettings, CodingToolsSettings>(provider => settings);
-        if(settings != null) {
+        if (settings != null) {
             CultureInfo.CurrentCulture = new CultureInfo(settings.LanguageCode);
         }
 
@@ -25,6 +26,7 @@ public static class Registration
         services.AddScoped<IGenerateActionHandler, GuidActionHandler>();
         services.AddScoped<IGenerateActionHandler, RandomActionHandler>();
         services.AddScoped<IEncryptionActionHandler, Sha256EncryptionActionHandler>();
+        services.AddScoped<INotifyActionHandler, MorseCodeNotifyActionHandler>();
 
         return services;
     }

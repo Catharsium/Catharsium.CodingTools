@@ -2,6 +2,7 @@
 using Catharsium.CodingTools.ActionHandlers._Interfaces;
 using Catharsium.CodingTools.ActionHandlers.Encryption;
 using Catharsium.CodingTools.ActionHandlers.Generate;
+using Catharsium.CodingTools.ActionHandlers.Notify;
 using Catharsium.Util.Testing.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,5 +25,6 @@ public class RegistrationTests
         serviceCollection.ReceivedRegistration<IGenerateActionHandler, GuidActionHandler>();
         serviceCollection.ReceivedRegistration<IGenerateActionHandler, RandomActionHandler>();
         serviceCollection.ReceivedRegistration<IEncryptionActionHandler, Sha256EncryptionActionHandler>();
+        serviceCollection.ReceivedRegistration<INotifyActionHandler, MorseCodeNotifyActionHandler>();
     }
 }
