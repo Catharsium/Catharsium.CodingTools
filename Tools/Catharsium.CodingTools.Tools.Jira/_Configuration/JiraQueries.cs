@@ -9,7 +9,7 @@ public static class JiraQueries
         "issuekey = IDN-234";
     public static readonly string IssuesWithWorklogsInPeriodForCurrentUser =
         "project = IDN AND " +
-        "worklogDate >= \"{startDate}\" AND worklogDate <= \"{endDate}\" AND " +
+        "worklogDate >= \"{startDate}\" AND worklogDate < \"{endDate}\" AND " +
         "worklogAuthor = currentUser()" +
         "ORDER BY issuekey ASC";
     public static readonly string IssuesWithWorklogsInPeriod =

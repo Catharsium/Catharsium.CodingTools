@@ -35,8 +35,8 @@ public class WorklogService : IWorklogService
     public async Task<IEnumerable<WorklogAdapter>> GetWorklogsInPeriodForUser(DateTime startDate, DateTime endDate)
     {
         var query = JiraQueries.IssuesWithWorklogsInPeriodForCurrentUser
-            .Replace("{startDate}", startDate.AddDays(-1).ToString("yyyy-MM-dd"))
-            .Replace("{endDate}", endDate.ToString("yyyy-MM-dd"));
+            .Replace("{startDate}", startDate.ToString("yyyy-MM-dd"))
+            .Replace("{endDate}", endDate.AddDays(1).ToString("yyyy-MM-dd"));
         var issues = await this.jiraClient.GetIssuesByQuery(query);
 
         var result = new List<WorklogAdapter>();
@@ -58,10 +58,10 @@ public class WorklogService : IWorklogService
     {
         var result = await this.jiraClient.GetWorklogs(issue);
         if (startDate.HasValue) {
-            result = result.Where(l => l.StartDate >= startDate.Value);
+            result = result.Where(l => l.StartDate.Date >= startDate.Value);
         }
         if (endDate.HasValue) {
-            result = result.Where(l => l.StartDate <= endDate.Value);
+            result = result.Where(l => l.StartDate.Date <= endDate.Value);
         }
         if (users != null) {
             result = result.Where(l => users.Contains(l.Author));

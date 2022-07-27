@@ -35,7 +35,7 @@ public class RemoveWorklogActionHandler : BaseActionHandler, IJiraActionHandler
             return;
         }
 
-        var worklogs = await this.worklogService.GetWorklogsForIssue(issue);
+        var worklogs = (await this.worklogService.GetWorklogsForIssueForUser(issue));
         if (worklogs.Any()) {
             this.console.WriteLine($"{issue.Key}\t{issue.Summary}");
             var selectedWorklogItem = this.console.AskForItem(worklogs);
