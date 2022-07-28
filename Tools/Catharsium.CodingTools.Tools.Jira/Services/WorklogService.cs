@@ -35,7 +35,7 @@ public class WorklogService : IWorklogService
     public async Task<IEnumerable<WorklogAdapter>> GetWorklogsInPeriodForUser(DateTime startDate, DateTime endDate)
     {
         var query = JiraQueries.IssuesWithWorklogsInPeriodForCurrentUser
-            .Replace("{startDate}", startDate.ToString("yyyy-MM-dd"))
+            .Replace("{startDate}", startDate.AddDays(-1).ToString("yyyy-MM-dd"))
             .Replace("{endDate}", endDate.AddDays(1).ToString("yyyy-MM-dd"));
         var issues = await this.jiraClient.GetIssuesByQuery(query);
 
