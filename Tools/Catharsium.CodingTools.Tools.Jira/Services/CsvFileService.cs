@@ -1,6 +1,7 @@
 ﻿using Catharsium.CodingTools.Tools.Jira._Configuration;
 using Catharsium.CodingTools.Tools.Jira.Interfaces;
 using Catharsium.Util.IO.Files.Interfaces;
+
 namespace Catharsium.CodingTools.Tools.Jira.Services;
 
 public class CsvFileService : ICsvFileService
@@ -19,7 +20,6 @@ public class CsvFileService : ICsvFileService
     public void WriteToFile(string csvText, string fileName)
     {
         var file = this.fileFactory.CreateFile($"{this.settings.ReportSettings.FilesFolder}{fileName}.csv");
-        var x = file.CreationTime;
         if (file.Exists) {
             file.Delete();
         }

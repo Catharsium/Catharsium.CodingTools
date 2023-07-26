@@ -36,6 +36,7 @@ public static class Registration
         services.AddScoped<IPeriodSelector, PeriodSelector>();
 
         services.AddScoped<ICsvFileService, CsvFileService>();
+        services.AddScoped<IIssueService, IssueService>();
         services.AddScoped<IWorklogService, WorklogService>();
         services.AddScoped<ITimesheetService, TimesheetService>();
 

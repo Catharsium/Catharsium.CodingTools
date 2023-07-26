@@ -15,11 +15,18 @@ public class JiraClient : IJiraClient
     }
 
 
+    public async Task<IssueAdapter> GetIssue(string key)
+    {
+        return new IssueAdapter(await this.jira.Issues.GetIssueAsync(key));
+    }
+
+
     public async Task<IEnumerable<IssueAdapter>> GetIssuesByQuery(string query)
     {
         var result = new List<IssueAdapter>();
         var startAt = 0;
         var pageSize = 50;
+
         while (true) {
             var issues = (await this.jira.Issues.GetIssuesFromJqlAsync(query, int.MaxValue, startAt)).Select(i => new IssueAdapter(i));
             result.AddRange(issues);
@@ -28,6 +35,7 @@ public class JiraClient : IJiraClient
             }
             startAt += pageSize;
         }
+
         return result;
     }
 

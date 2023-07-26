@@ -13,8 +13,8 @@ namespace Catharsium.CodingTools.Tools.Jira.Tests.Services
     {
         #region Fixture
 
-        private string CsvText => "My csv text";
-        private string FileName => "My file name";
+        private static string CsvText => "My csv text";
+        private static string FileName => "My file name";
 
         private JiraCodingToolsSettings Settings { get; set; }
         private IFile File { get; set; }
@@ -36,7 +36,7 @@ namespace Catharsium.CodingTools.Tools.Jira.Tests.Services
             this.File.CreateText().Returns(new StreamWriter(this.MemoryStream));
 
             this.File.CreationTime.Returns(new System.DateTime(2021, 8, 24));
-            this.GetDependency<IFileFactory>().CreateFile($"{this.Settings.ReportSettings.FilesFolder}{this.FileName}.csv").Returns(this.File);
+            this.GetDependency<IFileFactory>().CreateFile($"{this.Settings.ReportSettings.FilesFolder}{FileName}.csv").Returns(this.File);
         }
 
         #endregion
@@ -47,11 +47,11 @@ namespace Catharsium.CodingTools.Tools.Jira.Tests.Services
         public void WriteToFile_NewFile_WritesTextToFile()
         {
             this.File.Exists.Returns(false);
-            this.Target.WriteToFile(this.CsvText, this.FileName);
+            this.Target.WriteToFile(CsvText, FileName);
             var streamCopy = new MemoryStream(this.MemoryStream.ToArray());
             streamCopy.Seek(0, SeekOrigin.Begin);
             var actualText = new StreamReader(streamCopy).ReadToEnd();
-            Assert.AreEqual(this.CsvText, actualText);
+            Assert.AreEqual(CsvText, actualText);
         }
 
 
@@ -59,7 +59,7 @@ namespace Catharsium.CodingTools.Tools.Jira.Tests.Services
         public void WriteToFile_ExistingFile_DeletesFile()
         {
             this.File.Exists.Returns(true);
-            this.Target.WriteToFile(this.CsvText, this.FileName);
+            this.Target.WriteToFile(CsvText, FileName);
             this.File.Received().Delete();
         }
 

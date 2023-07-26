@@ -36,6 +36,7 @@ public class RegistrationTests
         serviceCollection.ReceivedRegistration<IPeriodSelector, PeriodSelector>();
 
         serviceCollection.ReceivedRegistration<ICsvFileService, CsvFileService>();
+        serviceCollection.ReceivedRegistration<IIssueService, IssueService>();
         serviceCollection.ReceivedRegistration<IWorklogService, WorklogService>();
         serviceCollection.ReceivedRegistration<ITimesheetService, TimesheetService>();
     }

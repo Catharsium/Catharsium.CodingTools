@@ -27,12 +27,23 @@ public class IssueAdapter
 
     public string[] Labels => this.InternalIssue.Labels.ToArray();
 
+
     public string JiraIdentifier => this.InternalIssue.JiraIdentifier;
 
 
     public async Task<Worklog> AddWorklogAsync(Worklog worklog, WorklogStrategy worklogStrategy = WorklogStrategy.AutoAdjustRemainingEstimate, string newEstimate = null, CancellationToken token = default)
     {
         return await this.InternalIssue.AddWorklogAsync(worklog, worklogStrategy, newEstimate, token);
+    }
+
+
+    public virtual Dictionary<string, string[]> GetCustomFields()
+    {
+        if (this.InternalIssue == null) {
+            return new Dictionary<string, string[]>();
+        }
+
+        return new(this.InternalIssue.CustomFields.Select(x => new KeyValuePair<string, string[]>(x.Name, x.Values)));
     }
 
 

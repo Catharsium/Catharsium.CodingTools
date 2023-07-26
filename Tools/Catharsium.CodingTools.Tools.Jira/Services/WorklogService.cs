@@ -1,6 +1,7 @@
 ﻿using Catharsium.CodingTools.Tools.Jira._Configuration;
 using Catharsium.CodingTools.Tools.Jira.Interfaces;
 using Catharsium.CodingTools.Tools.Jira.Models;
+
 namespace Catharsium.CodingTools.Tools.Jira.Services;
 
 public class WorklogService : IWorklogService
