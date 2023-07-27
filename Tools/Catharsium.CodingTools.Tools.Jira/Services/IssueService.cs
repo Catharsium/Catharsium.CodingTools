@@ -15,15 +15,15 @@ public class IssueService : IIssueService
     }
 
 
-    public async Task<IssueAdapter> GetIssueByKey(string key)
+    public async Task<JiraIssue> GetIssueByKey(string key)
     {
         return await this.jiraClient.GetIssue(key);
     }
 
 
-    public async Task<IssueAdapter> GetEpicForIssue(IssueAdapter issue)
+    public async Task<JiraIssue> GetEpicForIssue(JiraIssue issue)
     {
-        var customFields = issue.GetCustomFields();
+        var customFields = issue.CustomFields;
         if (customFields == null || !customFields.ContainsKey(CustomFields.EpicLink) || !customFields[CustomFields.EpicLink].Any()) {
             return null;
         }

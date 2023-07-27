@@ -17,14 +17,14 @@ public class WorklogService : IWorklogService
     }
 
 
-    public async Task<IEnumerable<WorklogAdapter>> GetWorklogsInPeriod(DateTime startDate, DateTime endDate)
+    public async Task<IEnumerable<JiraWorklog>> GetWorklogsInPeriod(DateTime startDate, DateTime endDate)
     {
         var query = JiraQueries.IssuesWithWorklogsInPeriod
             .Replace("{startDate}", startDate.AddDays(-1).ToString("yyyy-MM-dd"))
             .Replace("{endDate}", endDate.ToString("yyyy-MM-dd"));
         var issues = await this.jiraClient.GetIssuesByQuery(query);
 
-        var result = new List<WorklogAdapter>();
+        var result = new List<JiraWorklog>();
         foreach (var issue in issues) {
             result.AddRange(await this.GetWorklogsForIssue(issue, startDate, endDate));
         }
@@ -33,14 +33,14 @@ public class WorklogService : IWorklogService
     }
 
 
-    public async Task<IEnumerable<WorklogAdapter>> GetWorklogsInPeriodForUser(DateTime startDate, DateTime endDate)
+    public async Task<IEnumerable<JiraWorklog>> GetWorklogsInPeriodForUser(DateTime startDate, DateTime endDate)
     {
         var query = JiraQueries.IssuesWithWorklogsInPeriodForCurrentUser
             .Replace("{startDate}", startDate.AddDays(-1).ToString("yyyy-MM-dd"))
             .Replace("{endDate}", endDate.AddDays(1).ToString("yyyy-MM-dd"));
         var issues = await this.jiraClient.GetIssuesByQuery(query);
 
-        var result = new List<WorklogAdapter>();
+        var result = new List<JiraWorklog>();
         foreach (var issue in issues) {
             result.AddRange(await this.GetWorklogsForIssue(issue, startDate, endDate, new[] { this.settings.Username }));
         }
@@ -49,13 +49,13 @@ public class WorklogService : IWorklogService
     }
 
 
-    public async Task<IEnumerable<WorklogAdapter>> GetWorklogsForIssueForUser(IssueAdapter issue, DateTime? startDate = null, DateTime? endDate = null)
+    public async Task<IEnumerable<JiraWorklog>> GetWorklogsForIssueForUser(JiraIssue issue, DateTime? startDate = null, DateTime? endDate = null)
     {
         return await this.GetWorklogsForIssue(issue, startDate, endDate, new[] { this.settings.Username });
     }
 
 
-    public async Task<IEnumerable<WorklogAdapter>> GetWorklogsForIssue(IssueAdapter issue, DateTime? startDate = null, DateTime? endDate = null, IEnumerable<string> users = null)
+    public async Task<IEnumerable<JiraWorklog>> GetWorklogsForIssue(JiraIssue issue, DateTime? startDate = null, DateTime? endDate = null, IEnumerable<string> users = null)
     {
         var result = await this.jiraClient.GetWorklogs(issue);
         if (startDate.HasValue) {

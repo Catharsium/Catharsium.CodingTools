@@ -3,6 +3,7 @@ using Catharsium.Util.Configuration.Extensions;
 using Catharsium.Util.IO.Console.ActionHandlers.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 namespace Catharsium.CodingTools;
 
 class Program

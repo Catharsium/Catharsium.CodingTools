@@ -28,7 +28,7 @@ public class RemoveWorklogActionHandler : BaseActionHandler, IJiraActionHandler
     }
 
 
-    public async Task Run(IssueAdapter issue)
+    public async Task Run(JiraIssue issue)
     {
         if (issue == null) {
             this.console.WriteLine("Geen geldig issue geselecteerd.");

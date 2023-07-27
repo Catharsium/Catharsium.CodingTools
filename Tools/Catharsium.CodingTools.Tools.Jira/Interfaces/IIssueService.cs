@@ -4,8 +4,8 @@ namespace Catharsium.CodingTools.Tools.Jira.Interfaces
 {
     public interface IIssueService
     {
-        Task<IssueAdapter> GetIssueByKey(string key);
+        Task<JiraIssue> GetIssueByKey(string key);
 
-        Task<IssueAdapter> GetEpicForIssue(IssueAdapter issue);
+        Task<JiraIssue> GetEpicForIssue(JiraIssue issue);
     }
 }

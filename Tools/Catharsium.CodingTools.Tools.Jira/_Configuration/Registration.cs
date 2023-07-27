@@ -3,6 +3,7 @@ using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
 using Catharsium.CodingTools.Tools.Jira.ActionHandlers.Steps;
 using Catharsium.CodingTools.Tools.Jira.Client;
 using Catharsium.CodingTools.Tools.Jira.Interfaces;
+using Catharsium.CodingTools.Tools.Jira.Models.Mappers;
 using Catharsium.CodingTools.Tools.Jira.Services;
 using Catharsium.Util.Configuration.Extensions;
 using Catharsium.Util.IO.Console._Configuration;
@@ -17,29 +18,28 @@ public static class Registration
     public static IServiceCollection AddJiraCodingTools(this IServiceCollection services, IConfiguration config)
     {
         var configuration = config.Load<JiraCodingToolsSettings>();
-        services.AddSingleton<JiraCodingToolsSettings, JiraCodingToolsSettings>(provider => configuration);
+        return services.AddSingleton<JiraCodingToolsSettings, JiraCodingToolsSettings>(provider => configuration)
+            .AddConsoleIoUtilities(config)
+            .AddFilesIoUtilities(config)
 
-        services.AddConsoleIoUtilities(config);
-        services.AddFilesIoUtilities(config);
+            .AddSingleton(sp => Atlassian.Jira.Jira.CreateRestClient(configuration.Url, configuration.Username, configuration.Password))
+            .AddScoped<IJiraClient, JiraClient>()
+            .AddScoped<IJiraIssueMapper, JiraIssueMapper>()
+            .AddScoped<IWorklogMapper, WorklogMapper>()
 
-        services.AddSingleton(sp => Atlassian.Jira.Jira.CreateRestClient(configuration.Url, configuration.Username, configuration.Password));
-        services.AddScoped<IJiraClient, JiraClient>();
+            .AddScoped<IJiraActionHandler, PersonalWeekOverviewActionHandler>()
+            .AddScoped<IJiraActionHandler, TeamWeekOverviewActionHandler>()
+            .AddScoped<IJiraActionHandler, AddWorklogActionHandler>()
+            .AddScoped<IJiraActionHandler, RemoveWorklogActionHandler>()
+            .AddScoped<IJiraActionHandler, LabelReportActionHandler>()
+            .AddScoped<IJiraActionHandler, HoursReportActionHandler>()
 
-        services.AddScoped<IJiraActionHandler, PersonalWeekOverviewActionHandler>();
-        services.AddScoped<IJiraActionHandler, TeamWeekOverviewActionHandler>();
-        services.AddScoped<IJiraActionHandler, AddWorklogActionHandler>();
-        services.AddScoped<IJiraActionHandler, RemoveWorklogActionHandler>();
-        services.AddScoped<IJiraActionHandler, LabelReportActionHandler>();
-        services.AddScoped<IJiraActionHandler, HoursReportActionHandler>();
+            .AddScoped<IJiraIssueSelector, JiraIssueSelector>()
+            .AddScoped<IPeriodSelector, PeriodSelector>()
 
-        services.AddScoped<IJiraIssueSelector, JiraIssueSelector>();
-        services.AddScoped<IPeriodSelector, PeriodSelector>();
-
-        services.AddScoped<ICsvFileService, CsvFileService>();
-        services.AddScoped<IIssueService, IssueService>();
-        services.AddScoped<IWorklogService, WorklogService>();
-        services.AddScoped<ITimesheetService, TimesheetService>();
-
-        return services;
+            .AddScoped<ICsvFileService, CsvFileService>()
+            .AddScoped<IIssueService, IssueService>()
+            .AddScoped<IWorklogService, WorklogService>()
+            .AddScoped<ITimesheetService, TimesheetService>();
     }
 }

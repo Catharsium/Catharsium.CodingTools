@@ -14,16 +14,16 @@ public class TimesheetService : ITimesheetService
     }
 
 
-    public async Task<Dictionary<DateTime, List<WorklogAdapter>>> GetTimesheet(DateTime startDate, DateTime endDate)
+    public async Task<Dictionary<DateTime, List<JiraWorklog>>> GetTimesheet(DateTime startDate, DateTime endDate)
     {
         var worklogs = await this.worklogService.GetWorklogsInPeriodForUser(startDate, endDate);
-        var result = new Dictionary<DateTime, List<WorklogAdapter>>();
+        var result = new Dictionary<DateTime, List<JiraWorklog>>();
         foreach (var worklog in worklogs) {
             if (result.ContainsKey(worklog.StartDate.Date)) {
                 result[worklog.StartDate.Date].Add(worklog);
             }
             else {
-                result.Add(worklog.StartDate.Date, new List<WorklogAdapter> { worklog });
+                result.Add(worklog.StartDate.Date, new List<JiraWorklog> { worklog });
             }
         }
 

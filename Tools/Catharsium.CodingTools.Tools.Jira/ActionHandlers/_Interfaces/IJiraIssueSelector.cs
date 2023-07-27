@@ -4,5 +4,5 @@ namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
 
 public interface IJiraIssueSelector
 {
-    Task<IssueAdapter> SelectIssue();
+    Task<JiraIssue> SelectIssue();
 }

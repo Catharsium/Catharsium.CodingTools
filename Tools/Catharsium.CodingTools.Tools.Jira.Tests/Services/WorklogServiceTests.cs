@@ -21,7 +21,7 @@ public class WorklogServiceTests : TestFixture<WorklogService>
     private DateTime EndDate { get; set; }
 
     private JiraCodingToolsSettings Settings { get; set; }
-    public List<WorklogAdapter> Worklogs { get; private set; }
+    public List<JiraWorklog> Worklogs { get; private set; }
 
 
     [TestInitialize]
@@ -35,22 +35,26 @@ public class WorklogServiceTests : TestFixture<WorklogService>
         };
         this.SetDependency(this.Settings);
 
-        var worklog1 = Substitute.For<WorklogAdapter>();
-        worklog1.Author.Returns(this.Settings.Username);
-        worklog1.StartDate.Returns(this.StartDate.AddDays(-1));
+        var worklog1 = new JiraWorklog {
+            Author = this.Settings.Username,
+            StartDate = this.StartDate.AddDays(-1)
+        };
 
-        var worklog2 = Substitute.For<WorklogAdapter>();
-        worklog2.Author.Returns(this.Settings.Username);
-        worklog2.StartDate.Returns(this.EndDate);
+        var worklog2 = new JiraWorklog {
+            Author = this.Settings.Username,
+            StartDate = this.EndDate
+        };
 
-        var worklog3 = Substitute.For<WorklogAdapter>();
-        worklog3.Author.Returns(this.Settings.Username);
-        worklog3.StartDate.Returns(this.EndDate.AddDays(1));
+        var worklog3 = new JiraWorklog {
+            Author = this.Settings.Username,
+            StartDate = this.EndDate.AddDays(1)
+        };
 
-        var worklog4 = Substitute.For<WorklogAdapter>();
-        worklog4.Author.Returns(this.Settings.Username + "Other");
-        worklog4.StartDate.Returns(this.EndDate);
-        this.Worklogs = new List<WorklogAdapter> { worklog1, worklog2, worklog3, worklog4 };
+        var worklog4 = new JiraWorklog {
+            Author = this.Settings.Username + "Other",
+            StartDate = this.EndDate
+        };
+        this.Worklogs = new List<JiraWorklog> { worklog1, worklog2, worklog3, worklog4 };
     }
 
     #endregion
@@ -63,8 +67,8 @@ public class WorklogServiceTests : TestFixture<WorklogService>
         var expectedQuery = JiraQueries.IssuesWithWorklogsInPeriod
             .Replace("{startDate}", this.StartDate.AddDays(-1).ToString("yyyy-MM-dd"))
             .Replace("{endDate}", this.EndDate.ToString("yyyy-MM-dd"));
-        var issues = new[] { new IssueAdapter(), new IssueAdapter() };
-        this.GetDependency<IJiraClient>().GetIssuesByQuery(Arg.Is<string>(s => s == expectedQuery)).Returns(Task.FromResult((IEnumerable<IssueAdapter>)issues));
+        var issues = new[] { new JiraIssue(), new JiraIssue() };
+        this.GetDependency<IJiraClient>().GetIssuesByQuery(Arg.Is<string>(s => s == expectedQuery)).Returns(Task.FromResult((IEnumerable<JiraIssue>)issues));
         this.GetDependency<IJiraClient>().GetWorklogs(issues.ElementAt(0))
             .Returns(Task.FromResult(new[] { this.Worklogs[1] }.AsEnumerable()));
         this.GetDependency<IJiraClient>().GetWorklogs(issues.ElementAt(1))
@@ -84,8 +88,8 @@ public class WorklogServiceTests : TestFixture<WorklogService>
         var expectedQuery = JiraQueries.IssuesWithWorklogsInPeriod
             .Replace("{startDate}", this.StartDate.AddDays(-1).ToString("yyyy-MM-dd"))
             .Replace("{endDate}", this.EndDate.ToString("yyyy-MM-dd"));
-        var issues = Array.Empty<IssueAdapter>();
-        this.GetDependency<IJiraClient>().GetIssuesByQuery(Arg.Is<string>(s => s == expectedQuery)).Returns(Task.FromResult((IEnumerable<IssueAdapter>)issues));
+        var issues = Array.Empty<JiraIssue>();
+        this.GetDependency<IJiraClient>().GetIssuesByQuery(Arg.Is<string>(s => s == expectedQuery)).Returns(Task.FromResult((IEnumerable<JiraIssue>)issues));
 
         var actual = await this.Target.GetWorklogsInPeriod(this.StartDate, this.EndDate);
         Assert.IsNotNull(actual);
@@ -103,8 +107,8 @@ public class WorklogServiceTests : TestFixture<WorklogService>
         var expectedQuery = JiraQueries.IssuesWithWorklogsInPeriodForCurrentUser
             .Replace("{startDate}", this.StartDate.AddDays(-1).ToString("yyyy-MM-dd"))
             .Replace("{endDate}", this.EndDate.ToString("yyyy-MM-dd"));
-        var issues = new[] { new IssueAdapter(), new IssueAdapter() };
-        this.GetDependency<IJiraClient>().GetIssuesByQuery(Arg.Is<string>(s => s == expectedQuery)).Returns(Task.FromResult((IEnumerable<IssueAdapter>)issues));
+        var issues = new[] { new JiraIssue(), new JiraIssue() };
+        this.GetDependency<IJiraClient>().GetIssuesByQuery(Arg.Is<string>(s => s == expectedQuery)).Returns(Task.FromResult((IEnumerable<JiraIssue>)issues));
 
         this.GetDependency<IJiraClient>().GetWorklogs(issues.ElementAt(0))
             .Returns(Task.FromResult(new[] { this.Worklogs[1] }.AsEnumerable()));
@@ -123,8 +127,8 @@ public class WorklogServiceTests : TestFixture<WorklogService>
         var expectedQuery = JiraQueries.IssuesWithWorklogsInPeriodForCurrentUser
             .Replace("{startDate}", this.StartDate.AddDays(-1).ToString("yyyy-MM-dd"))
             .Replace("{endDate}", this.EndDate.ToString("yyyy-MM-dd"));
-        var issues = Array.Empty<IssueAdapter>();
-        this.GetDependency<IJiraClient>().GetIssuesByQuery(Arg.Is<string>(s => s == expectedQuery)).Returns(Task.FromResult((IEnumerable<IssueAdapter>)issues));
+        var issues = Array.Empty<JiraIssue>();
+        this.GetDependency<IJiraClient>().GetIssuesByQuery(Arg.Is<string>(s => s == expectedQuery)).Returns(Task.FromResult((IEnumerable<JiraIssue>)issues));
 
         var actual = await this.Target.GetWorklogsInPeriodForUser(this.StartDate, this.EndDate);
         Assert.IsNotNull(actual);
@@ -138,8 +142,8 @@ public class WorklogServiceTests : TestFixture<WorklogService>
     [TestMethod]
     public async Task GetWorklogsForIssueForUser_ReturnsWorklogsForUser()
     {
-        var issue = new IssueAdapter();
-        this.GetDependency<IJiraClient>().GetWorklogs(issue).Returns(Task.FromResult((IEnumerable<WorklogAdapter>)this.Worklogs));
+        var issue = new JiraIssue();
+        this.GetDependency<IJiraClient>().GetWorklogs(issue).Returns(Task.FromResult((IEnumerable<JiraWorklog>)this.Worklogs));
 
         var actual = (await this.Target.GetWorklogsForIssueForUser(issue)).ToArray();
         Assert.AreEqual(3, actual.Length);
@@ -153,8 +157,8 @@ public class WorklogServiceTests : TestFixture<WorklogService>
     [TestMethod]
     public async Task GetWorklogsForIssue_NoFilters_ReturnsAll()
     {
-        var issue = new IssueAdapter();
-        this.GetDependency<IJiraClient>().GetWorklogs(issue).Returns(Task.FromResult((IEnumerable<WorklogAdapter>)this.Worklogs));
+        var issue = new JiraIssue();
+        this.GetDependency<IJiraClient>().GetWorklogs(issue).Returns(Task.FromResult((IEnumerable<JiraWorklog>)this.Worklogs));
 
         var actual = (await this.Target.GetWorklogsForIssue(issue)).ToArray();
         Assert.AreEqual(this.Worklogs.Count, actual.Length);
@@ -167,8 +171,8 @@ public class WorklogServiceTests : TestFixture<WorklogService>
     [TestMethod]
     public async Task GetWorklogsForIssue_WithStartDate_ReturnsNewerWorklogs()
     {
-        var issue = new IssueAdapter();
-        this.GetDependency<IJiraClient>().GetWorklogs(issue).Returns(Task.FromResult((IEnumerable<WorklogAdapter>)this.Worklogs));
+        var issue = new JiraIssue();
+        this.GetDependency<IJiraClient>().GetWorklogs(issue).Returns(Task.FromResult((IEnumerable<JiraWorklog>)this.Worklogs));
 
         var actual = (await this.Target.GetWorklogsForIssue(issue, startDate: this.StartDate)).ToArray();
         Assert.AreEqual(3, actual.Length);
@@ -179,8 +183,8 @@ public class WorklogServiceTests : TestFixture<WorklogService>
     [TestMethod]
     public async Task GetWorklogsForIssue_WithEndDate_ReturnsOlderWorklogs()
     {
-        var issue = new IssueAdapter();
-        this.GetDependency<IJiraClient>().GetWorklogs(issue).Returns(Task.FromResult((IEnumerable<WorklogAdapter>)this.Worklogs));
+        var issue = new JiraIssue();
+        this.GetDependency<IJiraClient>().GetWorklogs(issue).Returns(Task.FromResult((IEnumerable<JiraWorklog>)this.Worklogs));
 
         var actual = (await this.Target.GetWorklogsForIssue(issue, endDate: this.EndDate)).ToArray();
         Assert.AreEqual(3, actual.Length);
@@ -191,8 +195,8 @@ public class WorklogServiceTests : TestFixture<WorklogService>
     [TestMethod]
     public async Task GetWorklogsForIssue_WithUsers_ReturnsWorklogsForUser()
     {
-        var issue = new IssueAdapter();
-        this.GetDependency<IJiraClient>().GetWorklogs(issue).Returns(Task.FromResult((IEnumerable<WorklogAdapter>)this.Worklogs));
+        var issue = new JiraIssue();
+        this.GetDependency<IJiraClient>().GetWorklogs(issue).Returns(Task.FromResult((IEnumerable<JiraWorklog>)this.Worklogs));
 
         var actual = (await this.Target.GetWorklogsForIssue(issue, users: new[] { this.Settings.Username })).ToArray();
         Assert.AreEqual(3, actual.Length);

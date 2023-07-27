@@ -29,7 +29,7 @@ public class LabelReportActionHandler : BaseActionHandler, IJiraActionHandler
         if (selectedYear == null || selectedYear > now.Year) {
             selectedYear = now.Year;
         }
-   
+
         var selectedMonth = this.console.AskForInt("Voer de maand in <1-12> (leeg voor huidige maand):");
         selectedMonth ??= now.Month;
         if (selectedYear == now.Year && selectedMonth > now.Month) {
@@ -40,14 +40,15 @@ public class LabelReportActionHandler : BaseActionHandler, IJiraActionHandler
         var endDate = startDate.AddMonths(1);
 
         var worklogs = await this.worklogService.GetWorklogsInPeriod(startDate, endDate);
-        var issueWorklogs = worklogs.GroupBy(wl => wl.Issue);
+        var issueWorklogs = worklogs.GroupBy(wl => wl.InnerIssue);
         var csv = new StringBuilder();
+
         csv.AppendLine($"\"Project\",\"Epic\",\"Type\",\"Nummer\",\"Naam\",\"Prioriteit\",\"Labels\",\"Uren\"");
         foreach (var issue in issueWorklogs.OrderBy(i => i.Key.Key)) {
             var epicName = "";
             var epicIssue = await this.issueService.GetEpicForIssue(issue.Key);
-            if (epicIssue != null && epicIssue.GetCustomFields().ContainsKey(CustomFields.EpicName)) {
-                epicName = epicIssue.GetCustomFields()[CustomFields.EpicName]?[0];
+            if (epicIssue != null && epicIssue.CustomFields.ContainsKey(CustomFields.EpicName)) {
+                epicName = epicIssue.CustomFields[CustomFields.EpicName]?[0];
             }
 
             this.console.WriteLine($"{issue.Key}");

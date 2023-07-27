@@ -4,12 +4,14 @@ using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
 using Catharsium.CodingTools.Tools.Jira.ActionHandlers.Steps;
 using Catharsium.CodingTools.Tools.Jira.Client;
 using Catharsium.CodingTools.Tools.Jira.Interfaces;
+using Catharsium.CodingTools.Tools.Jira.Models.Mappers;
 using Catharsium.CodingTools.Tools.Jira.Services;
 using Catharsium.Util.Testing.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+
 namespace Catharsium.CodingTools.Tools.Jira.Tests._Configuration;
 
 [TestClass]
@@ -24,6 +26,8 @@ public class RegistrationTests
         serviceCollection.AddJiraCodingTools(config);
         serviceCollection.ReceivedRegistration<Atlassian.Jira.Jira>();
         serviceCollection.ReceivedRegistration<IJiraClient, JiraClient>();
+        serviceCollection.ReceivedRegistration<IJiraIssueMapper, JiraIssueMapper>();
+        serviceCollection.ReceivedRegistration<IWorklogMapper, WorklogMapper>();
 
         serviceCollection.ReceivedRegistration<IJiraActionHandler, PersonalWeekOverviewActionHandler>();
         serviceCollection.ReceivedRegistration<IJiraActionHandler, TeamWeekOverviewActionHandler>();

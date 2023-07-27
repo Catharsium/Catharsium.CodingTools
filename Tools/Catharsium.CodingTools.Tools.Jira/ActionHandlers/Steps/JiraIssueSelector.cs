@@ -1,28 +1,32 @@
 ﻿using Catharsium.CodingTools.Tools.Jira._Configuration;
 using Catharsium.CodingTools.Tools.Jira.ActionHandlers._Interfaces;
+using Catharsium.CodingTools.Tools.Jira.Interfaces;
 using Catharsium.CodingTools.Tools.Jira.Models;
 using Catharsium.Util.IO.Console.Interfaces;
+
 namespace Catharsium.CodingTools.Tools.Jira.ActionHandlers.Steps;
 
 public class JiraIssueSelector : IJiraIssueSelector
 {
     private readonly Atlassian.Jira.Jira jira;
+    private readonly IJiraIssueMapper jiraIssueMapper;
     private readonly JiraCodingToolsSettings settings;
     private readonly IConsole console;
 
 
-    public JiraIssueSelector(Atlassian.Jira.Jira jira, JiraCodingToolsSettings settings, IConsole console)
+    public JiraIssueSelector(Atlassian.Jira.Jira jira, IJiraIssueMapper jiraIssueMapper, JiraCodingToolsSettings settings, IConsole console)
     {
         this.jira = jira;
+        this.jiraIssueMapper = jiraIssueMapper;
         this.settings = settings;
         this.console = console;
     }
 
 
-    public async Task<IssueAdapter> SelectIssue()
+    public async Task<JiraIssue> SelectIssue()
     {
         var jiraIssues = await this.jira.Issues.GetIssuesFromJqlAsync(JiraQueries.ActiveSprint);
-        var issues = jiraIssues.Select(i => new IssueAdapter(i));
+        var issues = jiraIssues.Select(i => this.jiraIssueMapper.Map(i));
         var selectedIssue = this.console.AskForItem(issues, "Select a ticket (or empty to manually enter):");
         if (selectedIssue == null) {
             var selectedIssueKey = this.console.AskForText("Enter the issue key");
@@ -36,7 +40,7 @@ public class JiraIssueSelector : IJiraIssueSelector
                 return null;
             }
 
-            selectedIssue = new IssueAdapter(manualIssue);
+            selectedIssue = this.jiraIssueMapper.Map(manualIssue);
         }
 
         return selectedIssue;
